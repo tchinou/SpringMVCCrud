@@ -1,0 +1,40 @@
+1) Model data layer using hibernate 
+--- creation of tables with pojo classes using annotation -------------------------------------> 4h
+
+---User
+---OrderHeader
+---item
+---orderItem
+
+2)creation of beans (spring)-------------------------------------------------------------------> 4h
+
+3)Test classes --------------------------------------------------------------------------------> 4h
+
+4)Vue layer using jsp 
+
+1-welcome page connection----------------------------------------------------------------------> 1h  
+
+2-admin page : 	users/order/items / international menu------------------------------------------>18 
+
+	**ajouter user + modifier + lister users + supprimer ------------------------------------>6h
+	**crud items ---------------------------------------------------------------------------->4h
+	**lister order + valider order ---------------------------------------------------------->4h
+	**internationalisation ------------------------------------------------------------------>4h
+jeudi 15h normalement 
+3- user page : list items / shopping basket / quantity of different items----------------------->6h
+
+**list item : ajout item au panier + quantité------------------------------------------------>4h
+**tri par prix ------------------------------------------------------------------------------>2h
+
+4- shopping basket containing items / order the command  --------------------------------------->2h
+
+**afficher panier avec articles ------------------------------------------------------------->2h
+ 
+
+5- resume of the shopping command order -------------------------------------------------------->3h
+
+**détail de la commande --------------------------------------------------------------------->3h
+
+6- displaying the result of the items 
+
+**voir les items (affichage) ------------------------------------------------------------------->2h 
