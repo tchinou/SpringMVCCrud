@@ -17,7 +17,6 @@
 	
 </head>
 <body>
-
 <div style="overflow-x:auto;">
  	<table class="table table-striped">
         
@@ -43,9 +42,25 @@
                </tr>
             </c:forEach>
         </tbody>
+        
     </table>
 </div>
-
+<div>   <p>
+					 <c:set var="quantityArticle" value="${0}"/>
+					 <c:forEach var="item" items="${items}">
+			   		 <c:set var="quantityArticle" value="${quantityArticle + item.quantity}" />
+					 </c:forEach>
+				     Nombre Items : ${quantityArticle}
+		  </p>
+   		  <p>
+				     <c:set var="total" value="${0}"/>
+			    	 <c:forEach var="item" items="${items}">
+			   		 <c:set var="total" value="${total + item.subtotal}" />
+					 </c:forEach>
+					 Prix total :  ${total}
+		   </p>
+		
+</div>
 <div style="overflow-x:auto;">
 		<form action="${pageContext.request.contextPath}/myOrder"  method="GET">
 		 	<button  class="btn btn-primary" type="submit"> Order My Cart</button>

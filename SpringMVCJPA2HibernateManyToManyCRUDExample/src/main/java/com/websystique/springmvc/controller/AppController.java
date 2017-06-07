@@ -2,6 +2,8 @@ package com.websystique.springmvc.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,12 +28,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.websystique.springmvc.model.Cart;
 import com.websystique.springmvc.model.Item;
 import com.websystique.springmvc.model.ItemInCart;
+import com.websystique.springmvc.model.OrderHeader;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.CartUtil;
 import com.websystique.springmvc.service.ItemService;
+import com.websystique.springmvc.service.OrderHeaderService;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
+import com.websystique.springmvc.service.UserServiceImpl;
 
 
 
@@ -48,7 +53,8 @@ public class AppController {
 	UserProfileService userProfileService;
 	@Autowired
 	MessageSource messageSource;
-	private boolean parameter = false;
+	@Autowired
+	OrderHeaderService orderHeaderService;
 	/**
 	 * This method will list all existing users.
 	 */
@@ -426,11 +432,13 @@ public class AppController {
 //    }
 	@RequestMapping(value="/myCart", method = RequestMethod.GET)
 	public String myCard(HttpServletRequest request,Model model){
+		
 		Cart myCart = CartUtil.getCartInSession(request);
-
 		 for(ItemInCart p:myCart.getProducts())
 			 System.out.println(p.getPrice());
-			 model.addAttribute("items", myCart.getProducts());
+				
+ 			 model.addAttribute("items", myCart.getProducts());
+ 			
 		return "mycart";
 	}
 	@RequestMapping(value = "/add",method=RequestMethod.POST)
@@ -439,7 +447,6 @@ public class AppController {
 			@RequestParam("quantity") int q){
 		if(id>0 && q>=1){
 			Cart myCart = CartUtil.getCartInSession(request);
-			
 			 myCart.addProduct(itemService.findById(id), q);
 		}
 		else{
@@ -484,8 +491,35 @@ public class AppController {
 	}
 	
 	@RequestMapping(value = "/myOrder", method=RequestMethod.GET)
-	public String orderMyCart(HttpServletRequest request, ModelMap model, Locale locale) {
-
+	public String orderMyCart(HttpServletRequest request, ModelMap model, Locale locale){
+		BigDecimal totalPrice=new BigDecimal(0);
+		BigDecimal subtotal = new BigDecimal(0);
+		OrderHeader orderHeader = new OrderHeader();
+		
+		Cart myCart = CartUtil.getCartInSession(request);
+		for(ItemInCart p:myCart.getProducts())
+				
+		System.out.println(p.getPrice());
+		model.addAttribute("items", myCart.getProducts());
+		
+	 	for(ItemInCart q:myCart.getProducts()){
+	 		subtotal = q.getSubtotal(); 
+	 		totalPrice = totalPrice.add(subtotal);
+	 	}
+	 		orderHeader.setPrice(totalPrice);
+	 		orderHeader.setDate(new Date());
+	 		orderHeaderService.save(orderHeader);
+	 		model.addAttribute("priceOrder", orderHeader.getPrice());
+	 		model.addAttribute("idOrder", orderHeader.getId());
+	 		model.addAttribute("dateOrder", orderHeader.getDate());
+	 
+		return "myorder";
+	}
+	
+	@RequestMapping(value = "/myDisplayOrder-{id}", method=RequestMethod.GET)
+	public String displayMyOrder(HttpServletRequest request, ModelMap model, Locale locale,
+			@PathVariable int id) {
+		OrderHeader orderHeader = orderHeaderService.findById(id);
 		Cart myCart = CartUtil.getCartInSession(request);
 		
 //		List<Item> itemsList = itemService.findAllItems();
@@ -493,9 +527,14 @@ public class AppController {
 //		for(ItemInCart p:myCart.getProducts()){
 //			
 //		}
-		
-		model.addAttribute("price", myCart.getCartPrice());
-		return "myorder";
+		for(ItemInCart p:myCart.getProducts())
+			 model.addAttribute("items", myCart.getProducts());
+			 
+ 		model.addAttribute("idOrder", orderHeader.getId());
+ 		model.addAttribute("dateOrder", orderHeader.getDate());
+ 		model.addAttribute("priceOrder", orderHeader.getPrice());
+ 		
+		return "mydisplayorder";
 	}
 	
 
