@@ -24,16 +24,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.websystique.springmvc.model.Cart;
 import com.websystique.springmvc.model.Item;
 import com.websystique.springmvc.model.ItemInCart;
 import com.websystique.springmvc.model.OrderHeader;
+import com.websystique.springmvc.model.OrderItem;
+import com.websystique.springmvc.model.OrderItemId;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.CartUtil;
 import com.websystique.springmvc.service.ItemService;
 import com.websystique.springmvc.service.OrderHeaderService;
+import com.websystique.springmvc.service.OrderItemService;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
 import com.websystique.springmvc.service.UserServiceImpl;
@@ -55,10 +59,24 @@ public class AppController {
 	MessageSource messageSource;
 	@Autowired
 	OrderHeaderService orderHeaderService;
+	@Autowired
+	OrderItemService orderItemService;
 	/**
 	 * This method will list all existing users.
 	 */
-
+	@RequestMapping(value="/spring", method = RequestMethod.GET)
+	public ModelAndView visitHome() {
+		return new ModelAndView("undex");
+	}
+		
+	@RequestMapping(value="/adminundex", method = RequestMethod.GET)
+	public ModelAndView visitAdmin() {
+		ModelAndView model = new ModelAndView("adminundex");
+		model.addObject("title", "Admministrator Control Panel");
+		model.addObject("message", "This page demonstrates how to use Spring security.");
+		
+		return model;
+	}
 	@RequestMapping(value = {"/listitems" }, method = RequestMethod.GET)
 	public String listItems(ModelMap model, Locale locale) {
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
@@ -495,20 +513,36 @@ public class AppController {
 		BigDecimal totalPrice=new BigDecimal(0);
 		BigDecimal subtotal = new BigDecimal(0);
 		OrderHeader orderHeader = new OrderHeader();
-		
+		OrderItem orderItemTo = new OrderItem();
+		OrderItemId orderItemId = new OrderItemId();
 		Cart myCart = CartUtil.getCartInSession(request);
 		for(ItemInCart p:myCart.getProducts())
 				
 		System.out.println(p.getPrice());
 		model.addAttribute("items", myCart.getProducts());
-		
 	 	for(ItemInCart q:myCart.getProducts()){
 	 		subtotal = q.getSubtotal(); 
 	 		totalPrice = totalPrice.add(subtotal);
 	 	}
 	 		orderHeader.setPrice(totalPrice);
 	 		orderHeader.setDate(new Date());
-	 		orderHeaderService.save(orderHeader);
+	 		
+			for(ItemInCart p:myCart.getProducts()){
+				int id= (int) p.getId();
+				System.out.println(id+"lyes");
+				Item it = itemService.findById(id);
+				System.out.println(it.getName()+"lyes");
+				orderItemId.setItem(it);
+				orderItemId.setOrderHead(orderHeader);
+				orderItemTo.setNbItem(p.getQuantity());
+				orderItemTo.setIdOrderItem(orderItemId);
+				orderItemTo.setOrderHeader(orderHeader);
+			}
+			
+			orderHeaderService.save(orderHeader);
+			orderItemService.save(orderItemTo);
+			
+	 	
 	 		model.addAttribute("priceOrder", orderHeader.getPrice());
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());

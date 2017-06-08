@@ -18,7 +18,10 @@ public class Cart {
 		map = new HashMap<String, ItemInCart>();
 		System.out.println("New Cart created");
 	}
-	
+	public Integer numberOfProducts(List<ItemInCart> itemsCart){
+		return itemsCart.size();
+		
+	}
 	public List<ItemInCart> getProducts() {
 		return products;
 	}

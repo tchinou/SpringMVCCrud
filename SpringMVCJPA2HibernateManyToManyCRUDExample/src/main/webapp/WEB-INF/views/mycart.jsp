@@ -62,7 +62,7 @@
 		
 </div>
 <div style="overflow-x:auto;">
-		<form action="${pageContext.request.contextPath}/myOrder"  method="GET">
+		<form action="${pageContext.request.contextPath}/myOrder?"  method="GET">
 		 	<button  class="btn btn-primary" type="submit"> Order My Cart</button>
 		</form> 
 </div>

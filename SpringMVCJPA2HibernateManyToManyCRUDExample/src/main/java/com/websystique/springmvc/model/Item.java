@@ -30,17 +30,17 @@ public class Item{
 	private String description;
 	//@Column(name="image_item")
    	//private Image img;
-//	@OneToMany(mappedBy="idOrderItem.item", cascade=CascadeType.ALL)
-//	private Set <OrderItem> OrdItems; 
+	@OneToMany(mappedBy="idOrderItem.item", cascade=CascadeType.ALL)
+	private Set <OrderItem> OrdItems; 
 //	
 	
-//	public Set<OrderItem> getOrdItems() {
-//		return OrdItems;
-//	}
+	public Set<OrderItem> getOrdItems() {
+		return OrdItems;
+	}
 //
-//	public void setOrdItems(Set<OrderItem> ordItems) {
-//		OrdItems = ordItems;
-//	}
+	public void setOrdItems(Set<OrderItem> ordItems) {
+		OrdItems = ordItems;
+	}
 
 	public Item(){
 		
