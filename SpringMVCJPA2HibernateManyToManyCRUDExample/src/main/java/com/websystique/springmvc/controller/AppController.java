@@ -513,8 +513,6 @@ public class AppController {
 		BigDecimal totalPrice=new BigDecimal(0);
 		BigDecimal subtotal = new BigDecimal(0);
 		OrderHeader orderHeader = new OrderHeader();
-		OrderItem orderItemTo = new OrderItem();
-		OrderItemId orderItemId = new OrderItemId();
 		Cart myCart = CartUtil.getCartInSession(request);
 		for(ItemInCart p:myCart.getProducts())
 				
@@ -526,8 +524,27 @@ public class AppController {
 	 	}
 	 		orderHeader.setPrice(totalPrice);
 	 		orderHeader.setDate(new Date());
-	 		
-			for(ItemInCart p:myCart.getProducts()){
+	 		List<ItemInCart> listItems = myCart.getProducts();
+	 		List <OrderItem> stock = new ArrayList<OrderItem>();
+			for(int i=0; i<listItems.size(); i++){
+				OrderItemId orderItemId = new OrderItemId();
+				OrderItem orderItemTo = new OrderItem();
+				ItemInCart idItem=  listItems.get(i);
+				int id = (int) idItem.getId();
+				System.out.println(id+"lyes");
+				Item it = itemService.findById(id);
+				System.out.println(it.getName()+"lyes");
+				orderItemId.setItem(it);
+				orderItemId.setOrderHead(orderHeader);
+				orderItemTo.setNbItem(idItem.getQuantity());
+				//orderItemTo.setIdOrderItem(orderItemId);
+				orderItemTo.setItem(it);
+				orderItemTo.setOrderHeader(orderHeader);
+				stock.add(orderItemTo);
+			}
+		
+	 		/*for(ItemInCart p:myCart.getProducts()){
+	 			OrderItemId orderItemId = new OrderItemId();
 				int id= (int) p.getId();
 				System.out.println(id+"lyes");
 				Item it = itemService.findById(id);
@@ -537,12 +554,15 @@ public class AppController {
 				orderItemTo.setNbItem(p.getQuantity());
 				orderItemTo.setIdOrderItem(orderItemId);
 				orderItemTo.setOrderHeader(orderHeader);
-			}
-			
-			orderHeaderService.save(orderHeader);
-			orderItemService.save(orderItemTo);
-			
-	 	
+
+			}*/
+	 		orderHeaderService.save(orderHeader);
+	 		
+	 		for(int i=0;i<stock.size(); i++){
+	 			System.out.println(stock.get(i).getIdOrderItem());
+				orderItemService.save(stock.get(i));
+	 		}
+
 	 		model.addAttribute("priceOrder", orderHeader.getPrice());
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());
