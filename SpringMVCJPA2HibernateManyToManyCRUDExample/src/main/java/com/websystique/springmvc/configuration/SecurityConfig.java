@@ -23,16 +23,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
             .inMemoryAuthentication()
                 .withUser("admin").password("nimda").roles("ADMIN");
+        auth
+        .inMemoryAuthentication()
+            .withUser("tchinou").password("123456").roles("USER");
+     
+        
     }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
   
       http.authorizeRequests()
-        .antMatchers("/spring").permitAll() 
+        .antMatchers("/").permitAll() 
         .antMatchers("/adminundex**").access("hasRole('ADMIN')")
-        .and().formLogin();
-      
+        .antMatchers("/db**").access("hasRole('USER')")
+        .and().formLogin()
+        .and().exceptionHandling().accessDeniedPage("/Access_Denied");
       http.csrf().disable();
+
     }    
+ 
 }

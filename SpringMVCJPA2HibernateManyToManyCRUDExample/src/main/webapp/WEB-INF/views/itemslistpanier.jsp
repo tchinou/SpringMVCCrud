@@ -19,9 +19,16 @@
 </head>
 
 <body>
-	<form action="${pageContext.request.contextPath}/myCart"  method="GET">
+	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 	<button  class="btn btn-primary" type="submit">My Cart</button>
 	</form> 
+	<div>
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<h2>Welcome : ${pageContext.request.userPrincipal.name} | 
+				<a href="<c:url value="/logout" />" > Logout</a>
+			</h2>  
+		</c:if>	
+	</div>
 	<div class="generic-container">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->

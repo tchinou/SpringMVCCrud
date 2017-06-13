@@ -31,7 +31,7 @@
 						<td>${user.firstName}</td>
 						<td>${user.lastName}</td>
 						<td>${user.email}</td>
-						<td>${user.ssoId}</td>
+						<td>${user.login}</td>
 						<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">${edit}</a></td>
 						<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">${delete}</a></td>
 					</tr>
@@ -40,7 +40,8 @@
 	    	</table>
 		</div>
 	 	<div class="well">
-	 		<a href="<c:url value='/newuser' />">${AddNewUser}</a>
+	 		<a href="<c:url value='/newuser' />">${AddNewUser}</a></br>
+	 		<a href="<c:url value="/interfaceAdmin" />">${Goto} ${operation}</a>
 	 	</div>
    	</div>
 </body>

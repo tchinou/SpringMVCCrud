@@ -12,14 +12,14 @@
 </head>
 <body>
 	<h2>
-		<a href="<c:url value='/newuser' />">${mUser}</a>
+		<a href="<c:url value='/list' />">${mUser}</a>
 <%-- 		<jsp:forward page=""></jsp:forward> --%>
 	</h2>
 	<h2>
-		<a href="#" >${mOrder}</a>
+		<a href="<c:url value='/listOrders' />" >${mOrder}</a>
 	</h2>
 	<h2>
-	<a href="<c:url value='/newitem' />">${mItem}</a>
+	<a href="<c:url value='/listitems' />">${mItem}</a>
 	</h2>
     Current Locale : ${pageContext.response.locale} / ${locale}
 	<div class="row">

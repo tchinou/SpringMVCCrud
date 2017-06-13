@@ -12,5 +12,9 @@
 		<h1>Spring Security Basic Demo (Java Config)</h1>
 		<a href="adminundex">Go to Administrator Page</a>
 	</div>
+	<div align="center">
+		<h1>Spring Security Basic Demo (Java Config)</h1>
+		<a href="db">Go to User Page</a>
+	</div>
 </body>
 </html>

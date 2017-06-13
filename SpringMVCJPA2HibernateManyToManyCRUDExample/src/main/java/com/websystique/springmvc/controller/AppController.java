@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -64,19 +66,43 @@ public class AppController {
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value="/spring", method = RequestMethod.GET)
+	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView visitHome() {
 		return new ModelAndView("undex");
 	}
-		
+	@RequestMapping(value = "/db", method = RequestMethod.GET)
+    public String adminPage(ModelMap model) {
+        model.addAttribute("user", "");
+        return "redirect:/listitemspanier";
+    }	
 	@RequestMapping(value="/adminundex", method = RequestMethod.GET)
-	public ModelAndView visitAdmin() {
+	public ModelAndView visitAdmin(Locale locale) {
 		ModelAndView model = new ModelAndView("adminundex");
 		model.addObject("title", "Admministrator Control Panel");
 		model.addObject("message", "This page demonstrates how to use Spring security.");
+		String messageOperation = messageSource.getMessage("operation.message", null, locale);
+		model.addObject("operation", messageOperation);
+		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
+		model.addObject("Goto", messageGoTo);
 		
 		return model;
 	}
+	 @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+	    public String accessDeniedPage(ModelMap model) {
+	        model.addAttribute("user", getPrincipal());
+	        return "accessDenied";
+	    }
+	 private String getPrincipal(){
+	        String userName = null;
+	        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	 
+	        if (principal instanceof UserDetails) {
+	            userName = ((UserDetails)principal).getUsername();
+	        } else {
+	            userName = principal.toString();
+	        }
+	        return userName;
+	    }
 	@RequestMapping(value = {"/listitems" }, method = RequestMethod.GET)
 	public String listItems(ModelMap model, Locale locale) {
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
@@ -95,7 +121,12 @@ public class AppController {
 		model.addAttribute("AddNewItem", messageAddNewItem);
 		List<Item> items = itemService.findAllItems();
 		model.addAttribute("items", items);
-		
+		String messageOperation = messageSource.getMessage("operation.message", null, locale);
+		model.addAttribute("operation", messageOperation);
+		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
+		model.addAttribute("Goto", messageGoTo);
+		String messageId = messageSource.getMessage("id.message", null, locale);
+		model.addAttribute("id", messageId);
 		return "itemslist";
 	}
 	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
@@ -136,6 +167,10 @@ public class AppController {
 		model.addAttribute("ListofUsers", messageListofUsers);
 		String messageAddNewUser = messageSource.getMessage("AddNewUser.message", null, locale);
 		model.addAttribute("AddNewUser", messageAddNewUser);
+		String messageOperation = messageSource.getMessage("operation.message", null, locale);
+		model.addAttribute("operation", messageOperation);
+		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
+		model.addAttribute("Goto", messageGoTo);
 		return "userslist";
 	}
 	@RequestMapping(value = {"/interfaceAdmin"}, method = RequestMethod.GET)
@@ -155,7 +190,7 @@ public class AppController {
 		return "admin";
 	}
 	//affiche en lançant l'application la vue panier et items utilisateur 
-	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/spring"}, method = RequestMethod.GET)
 	public String displayUserPanierPage(ModelMap model, Locale locale, @Valid Item item) {
 		String messageItem = messageSource.getMessage("item.message", null, locale);
 		model.addAttribute("Item", messageItem);
@@ -267,6 +302,8 @@ public class AppController {
 		model.addAttribute("Email", messageEmail);
 		String messagePassword = messageSource.getMessage("Password.message", null, locale);
 		model.addAttribute("Password", messagePassword);
+		String messageLogin = messageSource.getMessage("Login.message", null, locale);
+		model.addAttribute("Login", messageLogin);
 		
 		return "registration";
 	}
@@ -448,14 +485,16 @@ public class AppController {
 //        
 //        return "index";
 //    }
-	@RequestMapping(value="/myCart", method = RequestMethod.GET)
-	public String myCard(HttpServletRequest request,Model model){
-		
+	@RequestMapping(value="/myCart-{login}", method = RequestMethod.GET)
+	public String myCard(HttpServletRequest request,Model model,
+			@PathVariable String login){
+			System.out.println(login+"!!!!!!");
 		Cart myCart = CartUtil.getCartInSession(request);
 		 for(ItemInCart p:myCart.getProducts())
 			 System.out.println(p.getPrice());
 				
  			 model.addAttribute("items", myCart.getProducts());
+ 			 model.addAttribute("Login", login);
  			
 		return "mycart";
 	}
@@ -508,10 +547,12 @@ public class AppController {
 		return "itemslistpanier";
 	}
 	
-	@RequestMapping(value = "/myOrder", method=RequestMethod.GET)
-	public String orderMyCart(HttpServletRequest request, ModelMap model, Locale locale){
+	@RequestMapping(value = "/myOrder-{login}", method=RequestMethod.GET)
+	public String orderMyCart(HttpServletRequest request, ModelMap model, 
+			Locale locale, @PathVariable String login){
 		BigDecimal totalPrice=new BigDecimal(0);
 		BigDecimal subtotal = new BigDecimal(0);
+		User user = userService.findByLogin(login);
 		OrderHeader orderHeader = new OrderHeader();
 		Cart myCart = CartUtil.getCartInSession(request);
 		for(ItemInCart p:myCart.getProducts())
@@ -524,6 +565,8 @@ public class AppController {
 	 	}
 	 		orderHeader.setPrice(totalPrice);
 	 		orderHeader.setDate(new Date());
+	 		orderHeader.setUser(user);
+	 		orderHeaderService.save(orderHeader);
 	 		List<ItemInCart> listItems = myCart.getProducts();
 	 		List <OrderItem> stock = new ArrayList<OrderItem>();
 			for(int i=0; i<listItems.size(); i++){
@@ -556,7 +599,6 @@ public class AppController {
 				orderItemTo.setOrderHeader(orderHeader);
 
 			}*/
-	 		orderHeaderService.save(orderHeader);
 	 		
 	 		for(int i=0;i<stock.size(); i++){
 	 			System.out.println(stock.get(i).getIdOrderItem());
@@ -566,6 +608,7 @@ public class AppController {
 	 		model.addAttribute("priceOrder", orderHeader.getPrice());
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());
+	 		model.addAttribute("Login", login);
 	 
 		return "myorder";
 	}
@@ -591,5 +634,21 @@ public class AppController {
 		return "mydisplayorder";
 	}
 	
-
+	@RequestMapping(value =  "/listOrders" , method=RequestMethod.GET)
+	public String listOrder(ModelMap model, Locale locale) {
+		
+		String messageIdOrder = messageSource.getMessage("idOrder.message", null, locale);
+		model.addAttribute("idOrder", messageIdOrder);
+		String messageDateOrder = messageSource.getMessage("dateOrder.message", null, locale);
+		model.addAttribute("dateOrder", messageDateOrder);
+		String messagePriceOrder = messageSource.getMessage("priceOrder.message", null, locale);
+		model.addAttribute("PriceOrder", messagePriceOrder);
+		String messageNameUser = messageSource.getMessage("nameUser.message", null, locale);
+		model.addAttribute("NameUser", messageNameUser);
+		List <OrderHeader> ordersList = orderHeaderService.findAllOrders();
+		model.addAttribute("Orders", ordersList);
+		return "listOrdered";
+	
+	}
+	
 }

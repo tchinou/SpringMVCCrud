@@ -66,4 +66,22 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	    collection.iterator().hasNext();
 	}
 
+	@Override
+	public User findByLogin(String login) {
+		try{
+
+			User user = (User) getEntityManager()
+					.createQuery("SELECT u FROM User u WHERE u.login LIKE :login")
+					.setParameter("login", login)
+					.getSingleResult();
+
+			return user;
+		}
+	
+		catch (NoResultException ex){
+			return null;
+		}
+
+}
+
 }

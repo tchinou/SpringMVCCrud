@@ -18,6 +18,7 @@
 	<div class="panel panel-default">
 			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ListofItems} </span></div>
+		  	<h2>${Login}</h2>
 			<table class="table table-hover">
 	    				<thead>
 <%-- 		    				<c:forEach items="${orderheader}" var="item"> --%>

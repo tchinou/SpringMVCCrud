@@ -20,5 +20,8 @@ public interface UserService {
 	List<User> findAllUsers(); 
 	
 	boolean isUserSSOUnique(Integer id, String sso);
+	
+	User findByLogin (String login);
+
 
 }

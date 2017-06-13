@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,7 +35,9 @@ public class OrderHeader {
 	private BigDecimal price;
 	@OneToMany(mappedBy="idOrderItem.orderHead", cascade=CascadeType.ALL)
 	private Set <OrderItem> orderItems;
-	//private User user;
+	@ManyToOne
+	@JoinColumn(name="user_id", nullable=false)
+	private User user;
 	public OrderHeader() {
 	
 	}
@@ -62,15 +65,14 @@ public class OrderHeader {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	//@ManyToOne
-	////@JoinColumn(name="user_id", nullable=false)
-	/*public User getUser() {
+	
+	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}*/
+	}
 	public Set<OrderItem> getOrderItems() {
 		return orderItems;
 	}

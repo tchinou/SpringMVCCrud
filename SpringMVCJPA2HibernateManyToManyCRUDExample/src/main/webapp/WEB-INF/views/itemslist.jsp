@@ -17,6 +17,7 @@
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
+		      			<th>${id}</th>
 				        <th>${nameItem}</th>
 				        <th>${descriptionItem}</th>
 				        <th>${priceItem}</th>
@@ -39,7 +40,8 @@
 	    	</table>
 		</div>
 	 	<div class="well">
-	 		<a href="<c:url value='/newitem' />">${AddNewItem}</a>
+	 		<a href="<c:url value='/newitem' />">${AddNewItem}</a> </br>
+	 	 	<a href="<c:url value="/interfaceAdmin" />">${Goto} ${operation}</a>
 	 	</div>
    	</div>
 </body>

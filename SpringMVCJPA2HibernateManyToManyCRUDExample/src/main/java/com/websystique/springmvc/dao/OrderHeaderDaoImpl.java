@@ -33,10 +33,12 @@ public class OrderHeaderDaoImpl extends AbstractDao<Integer, OrderHeader>impleme
 		
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<OrderHeader> findAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		List <OrderHeader> ordersHeader = getEntityManager()
+				.createQuery("SELECT o FROM OrderHeader o ORDER BY o.id ASC")
+				.getResultList();
+		return ordersHeader;
 	}
 
 }

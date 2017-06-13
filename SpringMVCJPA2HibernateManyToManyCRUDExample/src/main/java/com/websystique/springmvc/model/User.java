@@ -24,8 +24,7 @@ public class User implements Serializable{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotEmpty
-	@Column(name="SSO_ID", unique=true, nullable=false)
+	@Column(name="SSO_ID")
 	private String ssoId;
 	
 	@NotEmpty
@@ -44,6 +43,9 @@ public class User implements Serializable{
 	@Column(name="EMAIL", nullable=false)
 	private String email;
 
+	@NotEmpty
+	@Column(name="LOGIN", nullable=false)
+	private String login;
 	//@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "APP_USER_USER_PROFILE", 
@@ -101,6 +103,14 @@ public class User implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
 	public Set<UserProfile> getUserProfiles() {
 		return userProfiles;
@@ -109,6 +119,7 @@ public class User implements Serializable{
 	public void setUserProfiles(Set<UserProfile> userProfiles) {
 		this.userProfiles = userProfiles;
 	}
+	
 	
 	@Override
 	public int hashCode() {

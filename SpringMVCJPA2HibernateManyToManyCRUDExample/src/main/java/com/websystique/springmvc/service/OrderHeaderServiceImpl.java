@@ -42,8 +42,7 @@ public class OrderHeaderServiceImpl implements OrderHeaderService{
 
 	@Override
 	public List<OrderHeader> findAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderHeaderDao.findAllOrders();
 	}
 
 }

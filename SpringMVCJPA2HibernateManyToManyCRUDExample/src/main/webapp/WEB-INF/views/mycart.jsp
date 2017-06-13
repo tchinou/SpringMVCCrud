@@ -17,6 +17,8 @@
 	
 </head>
 <body>
+	<h2>Welcome : ${Login} | 
+	</h2>  
 <div style="overflow-x:auto;">
  	<table class="table table-striped">
         
@@ -62,7 +64,7 @@
 		
 </div>
 <div style="overflow-x:auto;">
-		<form action="${pageContext.request.contextPath}/myOrder?"  method="GET">
+		<form action="${pageContext.request.contextPath}/myOrder-${login}"  method="GET">
 		 	<button  class="btn btn-primary" type="submit"> Order My Cart</button>
 		</form> 
 </div>
