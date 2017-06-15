@@ -26,13 +26,13 @@ public class Item{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_item")
 	private int id;
-	@NotEmpty
+	//@NotEmpty
 	@Column(name="name_item")
 	private String name;
-	@NotNull
+	//@NotNull
 	@Column(name="price_item")
 	private BigDecimal price;
-	@NotEmpty
+	//@NotEmpty
 	@Column(name="description_item")
 	private String description;
 	//@Column(name="image_item")
