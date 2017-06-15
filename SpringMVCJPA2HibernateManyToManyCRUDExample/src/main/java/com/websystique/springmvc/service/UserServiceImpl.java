@@ -65,5 +65,11 @@ public class UserServiceImpl implements UserService{
 	public User findByLogin(String login) {
 		return dao.findByLogin(login);
 	}
+
+	@Override
+	public void deleteUserById(int id) {
+		dao.deleteById(id);
+		
+	}
 	
 }

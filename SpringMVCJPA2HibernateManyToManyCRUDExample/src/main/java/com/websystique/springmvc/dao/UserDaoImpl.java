@@ -84,4 +84,14 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
 }
 
+	@Override
+	public void deleteById(int id) {
+		User user = (User) getEntityManager()
+				.createQuery("SELECT u FROM User u WHERE u.id LIKE :id")
+				.setParameter("id", id)
+				.getSingleResult();
+		delete(user);
+		
+	}
+
 }

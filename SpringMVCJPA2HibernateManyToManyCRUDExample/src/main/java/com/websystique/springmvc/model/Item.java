@@ -14,6 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="items")
@@ -22,10 +26,13 @@ public class Item{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_item")
 	private int id;
+	@NotEmpty
 	@Column(name="name_item")
 	private String name;
+	@NotNull
 	@Column(name="price_item")
 	private BigDecimal price;
+	@NotEmpty
 	@Column(name="description_item")
 	private String description;
 	//@Column(name="image_item")

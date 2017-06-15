@@ -22,6 +22,8 @@ public interface UserService {
 	boolean isUserSSOUnique(Integer id, String sso);
 	
 	User findByLogin (String login);
+	
+	void deleteUserById(int id);
 
 
 }

@@ -171,6 +171,10 @@ public class AppController {
 		model.addAttribute("operation", messageOperation);
 		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
 		model.addAttribute("Goto", messageGoTo);
+		String messageLogin = messageSource.getMessage("Login.message", null, locale);
+		model.addAttribute("Login", messageLogin);
+		String messageIdUser = messageSource.getMessage("idUser.message", null, locale);
+		model.addAttribute("Id", messageIdUser);
 		return "userslist";
 	}
 	@RequestMapping(value = {"/interfaceAdmin"}, method = RequestMethod.GET)
@@ -241,6 +245,22 @@ public class AppController {
 			ModelMap model, Locale locale) {
 
 		if (result.hasErrors()) {
+			String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
+			model.addAttribute("nameItem", messageNameItem);
+			String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
+			model.addAttribute("descriptionItem", messageDescriptionItem);
+			String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+			model.addAttribute("priceItem", messagePriceItem);
+			String messageItemRegistrationForm = messageSource.getMessage("itemRegistrationForm.message", null, locale);
+			model.addAttribute("ItemRegistrationForm", messageItemRegistrationForm);
+			String messageCancel = messageSource.getMessage("cancel.message", null, locale);
+			model.addAttribute("cancel", messageCancel);
+			String messageOr = messageSource.getMessage("or.message", null, locale);
+			model.addAttribute("choix", messageOr);
+			String messageUpdate = messageSource.getMessage("update.message", null, locale);
+			model.addAttribute("Update", messageUpdate);
+			String messageRegister = messageSource.getMessage("register.message", null, locale);
+			model.addAttribute("Register", messageRegister);
 			return "ajoutitem";
 		}
 
@@ -326,6 +346,12 @@ public class AppController {
 		String messageEmail = messageSource.getMessage("Email.message", null, locale);
 		model.addAttribute("Email", messageEmail);
 		if (result.hasErrors()) {
+			String messageOr = messageSource.getMessage("or.message", null, locale);
+			model.addAttribute("choix", messageOr);
+			String messageRegister = messageSource.getMessage("register.message", null, locale);
+			model.addAttribute("Register", messageRegister);
+			String messageCancel = messageSource.getMessage("cancel.message", null, locale);
+			model.addAttribute("cancel", messageCancel);
 			return "registration";
 		}
 
@@ -348,11 +374,9 @@ public class AppController {
 		model.addAttribute("Item", messageItem);
 		String messageSuccess = messageSource.getMessage("success.message", null, locale);
 		model.addAttribute("successMessage", messageSuccess);
-		
 		model.addAttribute("success", user.getFirstName() + " "+ user.getLastName());
 		String messageSuccessRegistry = messageSource.getMessage("successRegistry.message", null, locale);
 		model.addAttribute("successMessageRegistry", messageSuccessRegistry);
-		
 		//return "success";
 		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
 		model.addAttribute("Goto", messageGoTo);
@@ -365,11 +389,31 @@ public class AppController {
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable String ssoId, ModelMap model, Locale locale) {
-		User user = userService.findBySSO(ssoId);
+	@RequestMapping(value = { "/edit-user-{id}" }, method = RequestMethod.GET)
+	public String editUser(@PathVariable int id, ModelMap model, Locale locale) {
+		User user = userService.findById(id);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
+		String messageCancel = messageSource.getMessage("cancel.message", null, locale);
+		model.addAttribute("cancel", messageCancel);
+		String messageOr = messageSource.getMessage("or.message", null, locale);
+		model.addAttribute("choix", messageOr);
+		String messageUpdate = messageSource.getMessage("update.message", null, locale);
+		model.addAttribute("Update", messageUpdate);
+		String messageRegister = messageSource.getMessage("register.message", null, locale);
+		model.addAttribute("Register", messageRegister);
+		String messageUserRegistrationForm = messageSource.getMessage("userRegistrationForm.message", null, locale);
+		model.addAttribute("UserRegistrationForm", messageUserRegistrationForm);
+		String messageFirstName = messageSource.getMessage("FirstName.message", null, locale);
+		model.addAttribute("FirstName", messageFirstName);
+		String messageLastName = messageSource.getMessage("LastName.message", null, locale);
+		model.addAttribute("LastName", messageLastName);
+		String messageEmail = messageSource.getMessage("Email.message", null, locale);
+		model.addAttribute("Email", messageEmail);
+		String messagePassword = messageSource.getMessage("Password.message", null, locale);
+		model.addAttribute("Password", messagePassword);
+		String messageLogin = messageSource.getMessage("Login.message", null, locale);
+		model.addAttribute("Login", messageLogin);
 		return "registration";
 	}
 	
@@ -377,9 +421,9 @@ public class AppController {
 	 * This method will be called on form submission, handling POST request for
 	 * updating user in database. It also validates the user input
 	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/edit-user-{id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result,
-			ModelMap model, @PathVariable String ssoId, Locale locale) {
+			ModelMap model, @PathVariable int id, Locale locale) {
 		
 		if (result.hasErrors()) {
 			return "registration";
@@ -406,9 +450,9 @@ public class AppController {
 	/**
 	 * This method will delete an user by it's SSOID value.
 	 */
-	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable String ssoId) {
-		userService.deleteUserBySSO(ssoId);
+	@RequestMapping(value = { "/delete-user-{id}" }, method = RequestMethod.GET)
+	public String deleteUser(@PathVariable int id) {
+		userService.deleteUserById(id);
 		return "redirect:/list";
 	}
 	
@@ -645,6 +689,10 @@ public class AppController {
 		model.addAttribute("PriceOrder", messagePriceOrder);
 		String messageNameUser = messageSource.getMessage("nameUser.message", null, locale);
 		model.addAttribute("NameUser", messageNameUser);
+		String messageEdit = messageSource.getMessage("edit.message", null, locale);
+		model.addAttribute("edit", messageEdit);
+		String messageDelete = messageSource.getMessage("delete.message", null, locale);
+		model.addAttribute("delete", messageDelete);
 		List <OrderHeader> ordersList = orderHeaderService.findAllOrders();
 		model.addAttribute("Orders", ordersList);
 		return "listOrdered";
