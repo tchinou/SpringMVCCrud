@@ -1,6 +1,7 @@
 package com.websystique.springmvc.configuration;
 
 import java.util.Locale;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -103,6 +106,24 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeInterceptor());
     }
-
+	@Bean
+	public JavaMailSender getMailSender(){
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		//Using Gmail SMTP configuration.
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
+		mailSender.setUsername("lyesboufennara@gmail.com");
+		mailSender.setPassword("airmax1989");
+		
+		Properties javaMailProperties = new Properties();
+		javaMailProperties.put("mail.smtp.starttls.enable", "true");
+		javaMailProperties.put("mail.smtp.auth", "true");
+		javaMailProperties.put("mail.transport.protocol", "smtp");
+		javaMailProperties.put("mail.debug", "true");
+		
+		
+		mailSender.setJavaMailProperties(javaMailProperties);
+		return mailSender;
+	}
 }
 

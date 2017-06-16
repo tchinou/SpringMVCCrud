@@ -12,7 +12,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -28,12 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.websystique.spring.configuration.AppConfig;
 import com.websystique.springmvc.model.Cart;
+import com.websystique.springmvc.model.CustomerInfo;
 import com.websystique.springmvc.model.Item;
 import com.websystique.springmvc.model.ItemInCart;
 import com.websystique.springmvc.model.OrderHeader;
 import com.websystique.springmvc.model.OrderItem;
 import com.websystique.springmvc.model.OrderItemId;
+import com.websystique.springmvc.model.ProductOrder;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.CartUtil;
@@ -43,6 +48,7 @@ import com.websystique.springmvc.service.OrderItemService;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
 import com.websystique.springmvc.service.UserServiceImpl;
+import com.websystique.springmvc.service.mail.OrderService;
 
 
 
@@ -50,7 +56,8 @@ import com.websystique.springmvc.service.UserServiceImpl;
 @RequestMapping("/")
 @SessionAttributes("roles")
 public class AppController {
-
+	@Autowired
+	OrderService orderService;
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -611,6 +618,18 @@ public class AppController {
 	 		orderHeader.setDate(new Date());
 	 		orderHeader.setUser(user);
 	 		orderHeaderService.save(orderHeader);
+	 		
+	 		ProductOrder order = new ProductOrder();
+	 		order.setOrderId("12");
+			order.setProductName("Thinkpad T510");
+			order.setStatus("confirmed");
+			CustomerInfo customerInfo = new CustomerInfo();
+			customerInfo.setName("Websystique Admin");
+			customerInfo.setAddress("WallStreet");
+			customerInfo.setEmail("lyesboufennara@outlook.fr");
+			order.setCustomerInfo(customerInfo);
+	 		orderService.sendOrderConfirmation(order);
+	 		
 	 		List<ItemInCart> listItems = myCart.getProducts();
 	 		List <OrderItem> stock = new ArrayList<OrderItem>();
 			for(int i=0; i<listItems.size(); i++){
@@ -653,10 +672,23 @@ public class AppController {
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());
 	 		model.addAttribute("Login", login);
-	 
+
 		return "myorder";
 	}
-	
+	/*
+	public ProductOrder getDummyOrder() {
+		ProductOrder order = new ProductOrder();
+			order.setOrderId("1111");
+			order.setProductName("Thinkpad T510");
+			order.setStatus("confirmed");
+			CustomerInfo customerInfo = new CustomerInfo();
+			customerInfo.setName("Websystique Admin");
+			customerInfo.setAddress("WallStreet");
+			customerInfo.setEmail("lyesboufennara@outlook.fr");
+			order.setCustomerInfo(customerInfo);
+			return order;
+		
+	}*/
 	@RequestMapping(value = "/myDisplayOrder-{id}", method=RequestMethod.GET)
 	public String displayMyOrder(HttpServletRequest request, ModelMap model, Locale locale,
 			@PathVariable int id) {
