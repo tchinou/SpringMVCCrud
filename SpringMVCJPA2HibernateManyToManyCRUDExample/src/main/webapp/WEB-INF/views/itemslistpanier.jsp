@@ -20,12 +20,26 @@
 
 <body>
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
-		 	<button  class="btn btn-primary" type="submit">My Cart</button>
+		 	<button  class="btn btn-primary" type="submit">${MyCart}</button>
 	</form> 
+	Current Locale : ${pageContext.response.locale} / ${locale}
+	<div class="row">
+			<div class="form-group col-md-12">
+				<label class="col-md-3 control-lable" for="language"></label>
+				<div class="col-md-7">
+					<select onChange="window.location.href=this.value">
+				        <option value="">Select language</option>
+							 <option value="?lang=en">English</option>
+							 <option value="?lang=fr">Français</option>
+					
+				    </select>
+				</div>
+			</div>
+	</div>
 	<div>
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<h2>Welcome : ${pageContext.request.userPrincipal.name} | 
-				<a href="<c:url value="/logout" />" > Logout</a>
+			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
+				<a href="<c:url value="/logout" />" > ${Logout}</a>
 			</h2>  
 		</c:if>	
 	</div>
@@ -36,16 +50,13 @@
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
-				        <th>Identifiant</th>
+				        <th>${id}</th>
 				        <th>${nameItem}</th>
 				        <th>${descriptionItem}</th>
 				        <th>
-							 <a href="<c:url value='/sort-item?sortfield=${price}'/>"> ${priceItem}</a>
-<%-- 				        	<a href="<c:url value='/sort-item-${priceItem}'/>"> ${priceItem}</a> --%>
-<!-- 				        	<span id="identifierDescendant">▼</span> -->
-<!-- 				        	<span id="identifierAscendant">▲</span> -->
+							<a href="<c:url value='/sort-item?sortfield=${price}'/>"> ${priceItem}</a>
 				        </th>
-				        <th>Quantité</th>
+				        <th>${quantity}</th>
 				        <th width="100"></th>
 				        <th width="100"></th>
 					</tr>
@@ -57,8 +68,7 @@
 						<td>${item.name}</td>
 						<td>${item.description}</td>
 						<td>${item.price}</td>
-<%-- 						<td><a href="<c:url value='' />" class="btn btn-success custom-width">+</a></td> --%>
-<!-- 						<td><input  type="number" name="myInput"></td> -->
+
 							<td> 
 		        			 
 		                    	<form action="${pageContext.request.contextPath}/add?id=${item.id}" class="add-form" method="POST">
@@ -74,9 +84,6 @@
 	    		</tbody>
 	    	</table>
 		</div>
-<!-- 	 	<div class="well"> -->
-<%-- 	 		<a href="<c:url value='/newitem' />">${AddNewItem}</a> --%>
-<!-- 	 	</div> -->
    	</div>
 </body>
 </html>

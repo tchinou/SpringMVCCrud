@@ -28,9 +28,8 @@
 				<div class="col-md-7">
 					<select onChange="window.location.href=this.value">
 				        <option value="">Select language</option>
-				    	    
-							  <option value="?lang=en">English</option>
-							  <option value="?lang=fr">Français</option>
+							 <option value="?lang=en">English</option>
+							 <option value="?lang=fr">Français</option>
 					
 				    </select>
 				</div>

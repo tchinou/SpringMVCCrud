@@ -17,17 +17,17 @@
 	
 </head>
 <body>
-	<h2>Welcome : ${Login} | 
+	<h2>${Welcome} ${Login} | 
 	</h2>  
 <div style="overflow-x:auto;">
  	<table class="table table-striped">
         
         <thead>
             <tr>
-                <th>Item Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total Price</th>
+                <th>${nameItem}</th>
+                <th>${quantity}</th>
+                <th>${Price}</th>
+                <th>${totalPrice}</th>
             </tr>
         </thead>
         <tbody>
@@ -52,20 +52,20 @@
 					 <c:forEach var="item" items="${items}">
 			   		 <c:set var="quantityArticle" value="${quantityArticle + item.quantity}" />
 					 </c:forEach>
-				     Nombre Items : ${quantityArticle}
+				     ${itemNumber} : ${quantityArticle}
 		  </p>
    		  <p>
 				     <c:set var="total" value="${0}"/>
 			    	 <c:forEach var="item" items="${items}">
 			   		 <c:set var="total" value="${total + item.subtotal}" />
 					 </c:forEach>
-					 Prix total :  ${total}
+					 ${totalPrice} :  ${total}
 		   </p>
 		
 </div>
 <div style="overflow-x:auto;">
 		<form action="${pageContext.request.contextPath}/myOrder-${login}"  method="GET">
-		 	<button  class="btn btn-primary" type="submit"> Order My Cart</button>
+		 	<button  class="btn btn-primary" type="submit"> ${OrderMyCart}</button>
 		</form> 
 </div>
     

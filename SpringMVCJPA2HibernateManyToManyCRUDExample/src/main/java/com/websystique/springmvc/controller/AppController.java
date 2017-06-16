@@ -151,8 +151,19 @@ public class AppController {
 		model.addAttribute("delete", messageDelete);
 		String messageAddNewItem = messageSource.getMessage("addNewItem.message", null, locale);
 		model.addAttribute("AddNewItem", messageAddNewItem);
+		String messageId = messageSource.getMessage("id.message", null, locale);
+		model.addAttribute("id", messageId);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
+		String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
+		model.addAttribute("MyCart", messageMyCart);
+		
 		List<Item> items = itemService.sortItemsByName();
 		model.addAttribute("items", items);
+		Locale currentLocale = LocaleContextHolder.getLocale();
+	    model.addAttribute("locale", currentLocale);
 		return "itemslistpanier";
 	}
 	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
@@ -537,13 +548,14 @@ public class AppController {
 //        return "index";
 //    }
 	@RequestMapping(value="/myCart-{login}", method = RequestMethod.GET)
-	public String myCard(HttpServletRequest request,Model model,
+	public String myCard(HttpServletRequest request,Model model, Locale locale,
 			@PathVariable String login){
 			System.out.println(login+"!!!!!!");
 		Cart myCart = CartUtil.getCartInSession(request);
 		 for(ItemInCart p:myCart.getProducts())
 			 System.out.println(p.getPrice());
-				
+		 	 String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		 	 model.addAttribute("Welcome", messageWelcome);
  			 model.addAttribute("items", myCart.getProducts());
  			 model.addAttribute("Login", login);
  			
