@@ -73,8 +73,4 @@ public class ItemInCart {
 		this.items = items;
 	}
 
-
-
-
-	 
 }

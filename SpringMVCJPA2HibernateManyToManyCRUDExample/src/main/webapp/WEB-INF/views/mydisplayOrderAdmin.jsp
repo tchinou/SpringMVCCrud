@@ -8,8 +8,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%-- <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link> --%>
-<%-- <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link> --%>
+<spring:url value="/static/css/style.css" var="stylecss"/>  
+	<spring:url value="/static/css/bootstrap.min.css" var="style2css"/>  
+	<link href="${stylecss}" rel="stylesheet"/>  
+	<link href="${style2css}" rel="stylesheet"/>  
+
 <title>${orderDesc}</title>
 </head>
 <body>
@@ -23,23 +26,9 @@
 	    				<thead>
 <%-- 		    				<c:forEach items="${orderheader}" var="item"> --%>
 					        <p>${reference} : ${idOrder}</p>
-					        <p>${dateOrder} : ${dateOrder}
-	<%-- 				        	<jsp:useBean id="now" class="java.util.Date"/>     --%>
-	<%-- 							<fmt:formatDate value="${now}" dateStyle="long"/> --%>
-	<%-- 							<fmt:formatDate value="${now}" pattern="dd-MM-yyyy HH:mm:ss a z" /> --%>
-					        </p>
+					        <p>${dateOrder} : ${dateOrderFromOrder}</p>
+							<p>${totalPrice} :  ${priceOrder}</p>
 					        <p>
-	<%-- 				        	<c:set var="total" value="${0}"/> --%>
-	<%-- 							<c:forEach var="item" items="${items}"> --%>
-	<%-- 			   				<c:set var="total" value="${total + item.subtotal}" /> --%>
-	<%-- 							</c:forEach> --%>
-								  ${totalPrice} :  ${priceOrder}
-					        </p>
-					        <p>
-						        <c:set var="quantityArticle" value="${0}"/>
-								<c:forEach var="item" items="${items}">
-				   				<c:set var="quantityArticle" value="${quantityArticle + item.quantity}" />
-								</c:forEach>
 					        	${itemNumber} : ${quantityArticle}
 					        </p>
 					        <p width="100"></p>
@@ -50,8 +39,32 @@
 </div>
 	</div>
 <div style="overflow-x:auto;">
-		<form action="${pageContext.request.contextPath}/myDisplayOrder-${idOrder}"  method="GET">
-		 	<button  class="btn btn-primary" type="submit"> ${displayItems} </button>
+ 	<table class="table table-striped">
+        
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${items}" var="item">
+                <tr>
+                     <td>${item.name}</td>
+                     <td>${item.quantity}</td>
+                     <td class="price">${item.price}</td>
+                  	 <td class="price">${item.subtotal}</td>
+               </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
+
+<div style="overflow-x:auto;">
+		<form action="${pageContext.request.contextPath}"  method="GET">
+		 	<button  class="btn btn-primary" type="submit"> Go back to menu</button>
 		</form> 
 </div>
 </body>

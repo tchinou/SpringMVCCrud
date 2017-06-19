@@ -492,6 +492,24 @@ public class AppController {
 		model.addAttribute("edit", true);
 		String messageEdit = messageSource.getMessage("edit.message", null, locale);
 		model.addAttribute("edit", messageEdit);
+		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
+		model.addAttribute("nameItem", messageNameItem);
+		String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
+		model.addAttribute("descriptionItem", messageDescriptionItem);
+		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+		model.addAttribute("priceItem", messagePriceItem);
+		String messageItemRegistrationForm = messageSource.getMessage("itemRegistrationForm.message", null, locale);
+		model.addAttribute("ItemRegistrationForm", messageItemRegistrationForm);
+		String messageCancel = messageSource.getMessage("cancel.message", null, locale);
+		model.addAttribute("cancel", messageCancel);
+		String messageOr = messageSource.getMessage("or.message", null, locale);
+		model.addAttribute("choix", messageOr);
+		String messageUpdate = messageSource.getMessage("update.message", null, locale);
+		model.addAttribute("Update", messageUpdate);
+		String messageRegister = messageSource.getMessage("register.message", null, locale);
+		model.addAttribute("Register", messageRegister);
+		model.addAttribute("item", item);
+		model.addAttribute("edit", false);
 		return "ajoutitem";
 	}
 
@@ -550,15 +568,27 @@ public class AppController {
 	@RequestMapping(value="/myCart-{login}", method = RequestMethod.GET)
 	public String myCard(HttpServletRequest request,Model model, Locale locale,
 			@PathVariable String login){
-			System.out.println(login+"!!!!!!");
-		Cart myCart = CartUtil.getCartInSession(request);
+		 Cart myCart = CartUtil.getCartInSession(request);
 		 for(ItemInCart p:myCart.getProducts())
 			 System.out.println(p.getPrice());
 		 	 String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 		 	 model.addAttribute("Welcome", messageWelcome);
  			 model.addAttribute("items", myCart.getProducts());
  			 model.addAttribute("Login", login);
- 			
+ 			 model.addAttribute("Lyes", myCart.getTotalQuantity(myCart.getProducts()));
+	 		 String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
+	 		 model.addAttribute("nameItem", messageNameItem);
+ 			 String msgQuantity = messageSource.getMessage("quantity.message", null, locale);
+ 			 model.addAttribute("quantity", msgQuantity);
+ 			 String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+ 			 model.addAttribute("priceItem", messagePriceItem);
+ 			 String messagePriceTotal = messageSource.getMessage("totalPrice.message", null, locale);
+			 model.addAttribute("totalPrice", messagePriceTotal);
+	 		 String messageItemNumber = messageSource.getMessage("itemNumber.message", null, locale);
+			 model.addAttribute("itemNumber", messageItemNumber);
+			 String messageOrderMyCart = messageSource.getMessage("orderMyCart.message", null, locale);
+			 model.addAttribute("OrderMyCart", messageOrderMyCart);
+
 		return "mycart";
 	}
 	@RequestMapping(value = "/add",method=RequestMethod.POST)
@@ -600,7 +630,12 @@ public class AppController {
 		model.addAttribute("ListofItems", messageListofItems);
 		String messageDelete = messageSource.getMessage("delete.message", null, locale);
 		model.addAttribute("delete", messageDelete);
-
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
+		String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
+		model.addAttribute("MyCart", messageMyCart);
 		if(field.equals("DESC")) model.addAttribute("price", "ASC");
 		
 		else  model.addAttribute("price", "DESC");
@@ -629,6 +664,7 @@ public class AppController {
 	 		orderHeader.setPrice(totalPrice);
 	 		orderHeader.setDate(new Date());
 	 		orderHeader.setUser(user);
+	 		orderHeader.setNumberOfCartItems(myCart.getTotalQuantity(myCart.getProducts()));
 	 		orderHeaderService.save(orderHeader);
 	 		
 	 		ProductOrder order = new ProductOrder();
@@ -649,13 +685,10 @@ public class AppController {
 				OrderItem orderItemTo = new OrderItem();
 				ItemInCart idItem=  listItems.get(i);
 				int id = (int) idItem.getId();
-				System.out.println(id+"lyes");
 				Item it = itemService.findById(id);
-				System.out.println(it.getName()+"lyes");
 				orderItemId.setItem(it);
 				orderItemId.setOrderHead(orderHeader);
 				orderItemTo.setNbItem(idItem.getQuantity());
-				//orderItemTo.setIdOrderItem(orderItemId);
 				orderItemTo.setItem(it);
 				orderItemTo.setOrderHeader(orderHeader);
 				stock.add(orderItemTo);
@@ -684,7 +717,21 @@ public class AppController {
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());
 	 		model.addAttribute("Login", login);
-
+	 		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+ 			model.addAttribute("priceItem", messagePriceItem);
+ 			String messageItemNumber = messageSource.getMessage("itemNumber.message", null, locale);
+			model.addAttribute("itemNumber", messageItemNumber);
+			String messagePriceTotal = messageSource.getMessage("totalPrice.message", null, locale);
+			model.addAttribute("totalPrice", messagePriceTotal);
+			String messageDisplayItems = messageSource.getMessage("displayItems.message", null, locale);
+			model.addAttribute("displayItems", messageDisplayItems);
+			String messageDateOrder = messageSource.getMessage("dateOrder.message", null, locale);
+			model.addAttribute("dateOrder", messageDateOrder);
+			String messageReference = messageSource.getMessage("reference.message", null, locale);
+			model.addAttribute("reference", messageReference);
+			String messageOrderDescription = messageSource.getMessage("orderDesc.message", null, locale);
+			model.addAttribute("orderDesc", messageOrderDescription);
+			
 		return "myorder";
 	}
 	/*
@@ -705,16 +752,9 @@ public class AppController {
 	public String displayMyOrder(HttpServletRequest request, ModelMap model, Locale locale,
 			@PathVariable int id) {
 		OrderHeader orderHeader = orderHeaderService.findById(id);
+
 		Cart myCart = CartUtil.getCartInSession(request);
-		
-//		List<Item> itemsList = itemService.findAllItems();
-//		model.addAttribute("itemsList", itemsList);
-//		for(ItemInCart p:myCart.getProducts()){
-//			
-//		}
-		for(ItemInCart p:myCart.getProducts())
-			 model.addAttribute("items", myCart.getProducts());
-			 
+		model.addAttribute("items",myCart.getProducts());
  		model.addAttribute("idOrder", orderHeader.getId());
  		model.addAttribute("dateOrder", orderHeader.getDate());
  		model.addAttribute("priceOrder", orderHeader.getPrice());
@@ -741,6 +781,34 @@ public class AppController {
 		model.addAttribute("Orders", ordersList);
 		return "listOrdered";
 	
+	}
+	@RequestMapping(value = "/display-order-{id}", method=RequestMethod.GET)
+	public String displayOrder(HttpServletRequest request, ModelMap model, Locale locale,
+			@PathVariable int id) {
+		OrderHeader orderHeader = orderHeaderService.findById(id);
+		Cart myCart = CartUtil.getCartInSession(request);
+		model.addAttribute("items",myCart.getProducts());
+
+		model.addAttribute("quantityArticle", orderHeader.getNumberOfCartItems());	 
+ 		model.addAttribute("idOrder", orderHeader.getId());
+ 		model.addAttribute("dateOrderFromOrder", orderHeader.getDate());
+ 		model.addAttribute("priceOrder", orderHeader.getPrice());
+ 		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+		model.addAttribute("priceItem", messagePriceItem);
+		String messageItemNumber = messageSource.getMessage("itemNumber.message", null, locale);
+		model.addAttribute("itemNumber", messageItemNumber);
+		String messagePriceTotal = messageSource.getMessage("totalPrice.message", null, locale);
+		model.addAttribute("totalPrice", messagePriceTotal);
+		String messageDisplayItems = messageSource.getMessage("displayItems.message", null, locale);
+		model.addAttribute("displayItems", messageDisplayItems);
+		String messageDateOrder = messageSource.getMessage("dateOrder.message", null, locale);
+		model.addAttribute("dateOrder", messageDateOrder);
+		String messageReference = messageSource.getMessage("reference.message", null, locale);
+		model.addAttribute("reference", messageReference);
+		String messageOrderDescription = messageSource.getMessage("orderDesc.message", null, locale);
+		model.addAttribute("orderDesc", messageOrderDescription);
+		String msgQuantity = messageSource.getMessage("quantity.message", null, locale);
+		return "mydisplayOrderAdmin";
 	}
 	
 }

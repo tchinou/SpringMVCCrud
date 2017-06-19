@@ -15,5 +15,4 @@ public interface OrderHeaderDao {
 	void deleteById(int id);
 	
 	List<OrderHeader> findAllOrders();
-
 }

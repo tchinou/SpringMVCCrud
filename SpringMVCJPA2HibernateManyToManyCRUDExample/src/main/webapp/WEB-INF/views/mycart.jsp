@@ -54,6 +54,7 @@
 					 </c:forEach>
 				     ${itemNumber} : ${quantityArticle}
 		  </p>
+		  <p>NOMBRE ITEMS : ${Lyes}</p>
    		  <p>
 				     <c:set var="total" value="${0}"/>
 			    	 <c:forEach var="item" items="${items}">

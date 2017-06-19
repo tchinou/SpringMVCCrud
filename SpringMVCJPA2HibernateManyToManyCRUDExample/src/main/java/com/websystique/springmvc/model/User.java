@@ -27,26 +27,26 @@ public class User implements Serializable{
 	@Column(name="SSO_ID")
 	private String ssoId;
 	
-	//@NotEmpty
+	@NotEmpty
 	@Column(name="PASSWORD", nullable=false)
 	private String password;
 		
-	//@NotEmpty
+	@NotEmpty
 	@Column(name="FIRST_NAME", nullable=false)
 	private String firstName;
 
-	//@NotEmpty
+	@NotEmpty
 	@Column(name="LAST_NAME", nullable=false)
 	private String lastName;
 
-	//@NotEmpty
+	@NotEmpty
 	@Column(name="EMAIL", nullable=false)
 	private String email;
 
 	@NotEmpty
 	@Column(name="LOGIN", nullable=false)
 	private String login;
-	//@NotEmpty
+	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "APP_USER_USER_PROFILE", 
              joinColumns = { @JoinColumn(name = "USER_ID") }, 

@@ -28,6 +28,8 @@ public class OrderHeader {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_order")
 	private Integer id;
+	@Column(name="nombre_item")
+	private Integer numberOfCartItems;
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_order")
 	private Date date;
@@ -79,6 +81,14 @@ public class OrderHeader {
 
 	public void setOrderItems(Set<OrderItem> orderItems) {
 		this.orderItems = orderItems;
+	}
+
+	public Integer getNumberOfCartItems() {
+		return numberOfCartItems;
+	}
+
+	public void setNumberOfCartItems(Integer numberOfCartItems) {
+		this.numberOfCartItems = numberOfCartItems;
 	}
 
 }

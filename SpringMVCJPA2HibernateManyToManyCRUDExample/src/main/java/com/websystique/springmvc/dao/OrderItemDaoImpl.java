@@ -12,7 +12,6 @@ public class OrderItemDaoImpl extends AbstractDao<Integer, OrderItem> implements
 
 	@Override
 	public OrderItem findById(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

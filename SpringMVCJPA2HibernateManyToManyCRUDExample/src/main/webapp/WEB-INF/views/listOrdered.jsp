@@ -28,12 +28,14 @@
 	    		<tbody>
 				<c:forEach items="${Orders}" var="order">
 					<tr>
-						<td>${order.id}</td>
+						<td>
+						<a href="<c:url value='/display-order-${order.id}'/>"> ${order.id}</a>
+						</td>
 						<td>${order.date}</td>
 						<td>${order.price}</td>
 						<td>${order.user.login}</td>
-						<td><a href="<c:url value='/edit-order-${order.id}' />" class="btn btn-success custom-width">${edit}</a></td>
-						<td><a href="<c:url value='/delete-order-${order.id}' />" class="btn btn-danger custom-width">${delete}</a></td>
+<%-- 						<td><a href="<c:url value='/edit-order-${order.id}' />" class="btn btn-success custom-width">${edit}</a></td> --%>
+<%-- 						<td><a href="<c:url value='/delete-order-${order.id}' />" class="btn btn-danger custom-width">${delete}</a></td> --%>
 					</tr>
 				</c:forEach>
 	    		</tbody>

@@ -19,14 +19,18 @@
 </head>
 
 <body>
+<%-- 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET"> --%>
+
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 	<button  class="btn btn-primary" type="submit">${MyCart}</button>
 	</form> 
+	<div class="col-md-777">
 	Current Locale : ${pageContext.response.locale} / ${locale}
-	<div class="row">
+	</div>
+	<div class="">
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-lable" for="language"></label>
-				<div class="col-md-7">
+				<div class="col-md-77">
 					<select onChange="window.location.href=this.value">
 				        <option value="">Select language</option>
 							 <option value="?lang=en">English</option>
@@ -36,7 +40,7 @@
 				</div>
 			</div>
 	</div>
-	<div>
+	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>

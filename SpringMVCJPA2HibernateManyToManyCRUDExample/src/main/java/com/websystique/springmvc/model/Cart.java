@@ -13,10 +13,16 @@ public class Cart {
 	
 	private final List <ItemInCart> products = new ArrayList<ItemInCart>();
 	private Map<String, ItemInCart> map;
+	private int quantity;
 
 	public Cart(){
 		map = new HashMap<String, ItemInCart>();
 		System.out.println("New Cart created");
+	}
+	public Integer getQuantityCart(){
+		int qte = 0;
+		
+		return null;
 	}
 	public Integer numberOfProducts(List<ItemInCart> itemsCart){
 		return itemsCart.size();
@@ -45,6 +51,17 @@ public class Cart {
 			pl.setQuantity(pl.getQuantity()+quantity);
 		}
 		
+	}
+	public Integer getTotalQuantity(List<ItemInCart> listItems){
+		Integer quantity=0;
+		for(int i=0; i<listItems.size(); i++){
+			quantity=quantity+listItems.get(i).getQuantity();
+		}
+		return quantity;
+	}
+	public void addQuantity(int quantity){
+		
+		this.quantity=this.quantity+quantity;
 	}
 	public void deleteProduct(Item p){
 		ItemInCart pl=getPl(p.getId());
