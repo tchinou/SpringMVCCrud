@@ -59,6 +59,10 @@ public class Cart {
 		}
 		return quantity;
 	}
+	public Integer getNumberDifferentItems(List<ItemInCart> listItems){
+		System.out.println(listItems.size());
+		return listItems.size();
+	}
 	public void addQuantity(int quantity){
 		
 		this.quantity=this.quantity+quantity;

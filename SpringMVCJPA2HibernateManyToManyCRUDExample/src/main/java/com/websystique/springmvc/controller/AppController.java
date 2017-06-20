@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.websystique.spring.configuration.AppConfig;
 import com.websystique.springmvc.model.Cart;
 import com.websystique.springmvc.model.CustomerInfo;
 import com.websystique.springmvc.model.Item;
@@ -384,6 +383,12 @@ public class AppController {
 		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
 		    result.addError(ssoError);
+			String messageOr = messageSource.getMessage("or.message", null, locale);
+			model.addAttribute("choix", messageOr);
+			String messageRegister = messageSource.getMessage("register.message", null, locale);
+			model.addAttribute("Register", messageRegister);
+			String messageCancel = messageSource.getMessage("cancel.message", null, locale);
+			model.addAttribute("cancel", messageCancel);
 			return "registration";
 		}
 		
@@ -535,6 +540,8 @@ public class AppController {
 		itemService.updateItem(item);
 
 		model.addAttribute("success", "Item " + item.getName() + " "+ item.getDescription() + item.getPrice() +" updated successfully");
+		String messageListItem = messageSource.getMessage("itemsList.message", null, null);
+		model.addAttribute("itemsList", messageListItem);
 		return "itemsuccess";
 	}
 	@RequestMapping(value = { "/delete-item-{id}" }, method = RequestMethod.GET)
@@ -661,10 +668,13 @@ public class AppController {
 	 		subtotal = q.getSubtotal(); 
 	 		totalPrice = totalPrice.add(subtotal);
 	 	}
-	 		orderHeader.setPrice(totalPrice);
+	 	
+ 		List<ItemInCart> listItems = myCart.getProducts();
+ 			orderHeader.setPrice(totalPrice);
 	 		orderHeader.setDate(new Date());
 	 		orderHeader.setUser(user);
-	 		orderHeader.setNumberOfCartItems(myCart.getTotalQuantity(myCart.getProducts()));
+	 		orderHeader.setNumberOfCartItems(myCart.getTotalQuantity(listItems));
+	 		orderHeader.setDifferentNumberItems(myCart.getNumberDifferentItems(listItems));
 	 		orderHeaderService.save(orderHeader);
 	 		
 	 		ProductOrder order = new ProductOrder();
@@ -678,7 +688,6 @@ public class AppController {
 			order.setCustomerInfo(customerInfo);
 	 		orderService.sendOrderConfirmation(order);
 	 		
-	 		List<ItemInCart> listItems = myCart.getProducts();
 	 		List <OrderItem> stock = new ArrayList<OrderItem>();
 			for(int i=0; i<listItems.size(); i++){
 				OrderItemId orderItemId = new OrderItemId();
@@ -693,26 +702,10 @@ public class AppController {
 				orderItemTo.setOrderHeader(orderHeader);
 				stock.add(orderItemTo);
 			}
-		
-	 		/*for(ItemInCart p:myCart.getProducts()){
-	 			OrderItemId orderItemId = new OrderItemId();
-				int id= (int) p.getId();
-				System.out.println(id+"lyes");
-				Item it = itemService.findById(id);
-				System.out.println(it.getName()+"lyes");
-				orderItemId.setItem(it);
-				orderItemId.setOrderHead(orderHeader);
-				orderItemTo.setNbItem(p.getQuantity());
-				orderItemTo.setIdOrderItem(orderItemId);
-				orderItemTo.setOrderHeader(orderHeader);
-
-			}*/
-	 		
 	 		for(int i=0;i<stock.size(); i++){
 	 			System.out.println(stock.get(i).getIdOrderItem());
 				orderItemService.save(stock.get(i));
 	 		}
-
 	 		model.addAttribute("priceOrder", orderHeader.getPrice());
 	 		model.addAttribute("idOrder", orderHeader.getId());
 	 		model.addAttribute("dateOrder", orderHeader.getDate());
@@ -785,10 +778,23 @@ public class AppController {
 	@RequestMapping(value = "/display-order-{id}", method=RequestMethod.GET)
 	public String displayOrder(HttpServletRequest request, ModelMap model, Locale locale,
 			@PathVariable int id) {
+		List<ItemInCart> itemsInCart = new ArrayList<>();
+		List<OrderItem> orderItemFromTable = new ArrayList<>();
+
 		OrderHeader orderHeader = orderHeaderService.findById(id);
+		OrderItem orderItem = orderItemService.findByOrderId(orderHeader.getId());
+		orderItemFromTable.add(orderItem);
+		Item item = itemService.findById(orderItem.getItem().getId());
+		ItemInCart itemInCartFromOrder = new ItemInCart();
+		itemInCartFromOrder.setName(item.getName());
+		itemInCartFromOrder.setPrice(item.getPrice());
+		itemInCartFromOrder.setQuantity(orderItem.getNbItem());
+		itemInCartFromOrder.setSubtotal(itemInCartFromOrder
+				.getSubtotalFromOrderTable(item.getPrice(), orderItem.getNbItem()));
+		
 		Cart myCart = CartUtil.getCartInSession(request);
 		model.addAttribute("items",myCart.getProducts());
-
+		
 		model.addAttribute("quantityArticle", orderHeader.getNumberOfCartItems());	 
  		model.addAttribute("idOrder", orderHeader.getId());
  		model.addAttribute("dateOrderFromOrder", orderHeader.getDate());

@@ -26,7 +26,7 @@
             <tr>
                 <th>${nameItem}</th>
                 <th>${quantity}</th>
-                <th>${Price}</th>
+                <th>${priceItem}</th>
                 <th>${totalPrice}</th>
             </tr>
         </thead>

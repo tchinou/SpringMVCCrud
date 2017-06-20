@@ -3,8 +3,12 @@ package com.websystique.springmvc.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
+import com.websystique.springmvc.model.OrderHeader;
 import com.websystique.springmvc.model.OrderItem;
 
 @Repository("orderItemDao")
@@ -33,9 +37,29 @@ public class OrderItemDaoImpl extends AbstractDao<Integer, OrderItem> implements
 	}
 
 	@Override
-	public List<OrderItem> findAllOrderItems() {
+	public List<OrderItem> findAllOrderItems(int id) {
+		List <OrderItem> orderItem = (List<OrderItem>) getEntityManager()
+				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.item.id LIKE :id")
+				.setParameter("id", id)
+				.getResultList();
+		return orderItem;
+	}
+
+	@Override
+	public OrderItem findByOrderId(int id) {
+		OrderItem orderItem = (OrderItem) getEntityManager()
+				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.item.id LIKE :id")
+				.setParameter("id", id)
+				.getResultList();
+		return orderItem;
+	}
+
+	@Override
+	public List<OrderItem> findAllWithOrderHeaderId(OrderHeader orderHeader) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

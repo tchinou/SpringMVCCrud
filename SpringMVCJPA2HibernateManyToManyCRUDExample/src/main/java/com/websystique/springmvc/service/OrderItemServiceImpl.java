@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.websystique.springmvc.dao.OrderItemDao;
 import com.websystique.springmvc.model.OrderItem;
+import com.websystique.springmvc.model.OrderItemId;
 
 @Service("orderItemService")
 @Transactional
@@ -41,8 +42,13 @@ public class OrderItemServiceImpl implements OrderItemService{
 	}
 
 	@Override
-	public List<OrderItem> findAllOrderItems() {
-		return orderItemDao.findAllOrderItems();
+	public List<OrderItem> findAllOrderItems(int id) {
+		return orderItemDao.findAllOrderItems(id);
+	}
+
+	@Override
+	public OrderItem findByOrderId(int id) {
+		return orderItemDao.findByOrderId(id);
 	}
 
 }

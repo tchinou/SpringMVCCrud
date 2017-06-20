@@ -28,15 +28,23 @@ public class OrderHeader {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_order")
 	private Integer id;
+	
 	@Column(name="nombre_item")
 	private Integer numberOfCartItems;
+
+	@Column (name="different_item")
+	private Integer differentNumberItems;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_order")
 	private Date date;
+	
 	@Column (name="price_order")
 	private BigDecimal price;
+	
 	@OneToMany(mappedBy="idOrderItem.orderHead", cascade=CascadeType.ALL)
 	private Set <OrderItem> orderItems;
+	
 	@ManyToOne
 	@JoinColumn(name="user_id", nullable=false)
 	private User user;
@@ -89,6 +97,14 @@ public class OrderHeader {
 
 	public void setNumberOfCartItems(Integer numberOfCartItems) {
 		this.numberOfCartItems = numberOfCartItems;
+	}
+
+	public Integer getDifferentNumberItems() {
+		return differentNumberItems;
+	}
+
+	public void setDifferentNumberItems(Integer differentNumberItems) {
+		this.differentNumberItems = differentNumberItems;
 	}
 
 }

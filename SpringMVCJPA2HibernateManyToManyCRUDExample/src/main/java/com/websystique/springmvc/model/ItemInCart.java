@@ -72,5 +72,8 @@ public class ItemInCart {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
+	public BigDecimal getSubtotalFromOrderTable(BigDecimal price, int quantity) {
+		return price.multiply(new BigDecimal(quantity));
+	}
 
 }
