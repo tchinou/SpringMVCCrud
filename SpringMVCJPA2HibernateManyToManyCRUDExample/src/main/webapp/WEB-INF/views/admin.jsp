@@ -21,8 +21,8 @@
 	<h2>
 	<a href="<c:url value='/listitems' />">${mItem}</a>
 	</h2>
-    Current Locale : ${pageContext.response.locale} / ${locale}
-	<div class="row">
+    Current Locale : ${pageContext.response.locale} / ${locale} : ${startMeeting}
+    	<div class="row">
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-lable" for="language"></label>
 				<div class="col-md-7">

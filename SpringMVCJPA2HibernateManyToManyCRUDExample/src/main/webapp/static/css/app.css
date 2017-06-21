@@ -20,7 +20,7 @@ body, .form-control{
   position:fixed;
   width:80%;
   margin-left: 20px;
-  margin-top: 20px;
+  margin-top: 200px;
   margin-bottom: 20px;
   padding: 20px;
   background-color: #EAE7E7;
@@ -28,7 +28,18 @@ body, .form-control{
   border-radius: 4px;
   box-shadow: 0 0 30px black;
 }
-
+.generic-cuntainer {
+  position:fixed;
+  width:80%;
+  margin-left: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 20px;
+  background-color: #EAE7E7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 0 30px black;
+}
 .custom-width {
     width: 80px !important;
 }

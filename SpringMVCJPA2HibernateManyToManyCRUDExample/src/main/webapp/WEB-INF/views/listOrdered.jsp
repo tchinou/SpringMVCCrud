@@ -10,7 +10,8 @@
 </head>
 
 <body>
-	<div class="generic-container">
+<div>
+	<div class="generic-container"  style="overflow: scroll; height : 90%; max-height:500px">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ordersList} </span></div>
@@ -46,5 +47,6 @@
 	 	 	<a href="<c:url value="/interfaceAdmin" />">${Goto} ${operation}</a>
 	 	</div>
    	</div>
+</div>
 </body>
 </html>

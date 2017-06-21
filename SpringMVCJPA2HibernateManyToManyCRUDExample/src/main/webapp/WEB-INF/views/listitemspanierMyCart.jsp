@@ -20,17 +20,15 @@
 
 <body>
 <%-- 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET"> --%>
-	<div class="generic-cuntainer">
+
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 
 		 	<button  class="btn btn-primary" type="submit">${MyCart}: ${quan} ${articles}</button>
 	</form> 
 	<div class="col-md-777">
-		Current Locale : ${pageContext.response.locale} / ${locale}
+	Current Locale : ${pageContext.response.locale} / ${locale}
 	</div>
-	<div class="col-md-77777">
-		
-
+	<div class="">
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-lable" for="language"></label>
 				<div class="col-md-77">
@@ -40,8 +38,6 @@
 							 <option value="?lang=fr">Français</option>
 					
 				    </select>
-				    <a value="?lang=en"><img src=" <c:url value="/static/images/en.png" />" />  </a>
-				    <a value="?lang=fr"><img src=" <c:url value="/static/images/fr.png" />" />  </a>
 				</div>
 			</div>
 	</div>
@@ -51,7 +47,6 @@
 				<a href="<c:url value="/logout" />" > ${Logout}</a>
 			</h2>  
 		</c:if>	
-	</div>
 	</div>
 	<div class="generic-container">
 		<div class="panel panel-default">
