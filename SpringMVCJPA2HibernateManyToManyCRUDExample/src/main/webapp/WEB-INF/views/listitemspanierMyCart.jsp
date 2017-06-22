@@ -19,27 +19,27 @@
 </head>
 
 <body>
-<%-- 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET"> --%>
-
+	<div class="generic-cuntainer">
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 
 		 	<button  class="btn btn-primary" type="submit">${MyCart}: ${quan} ${articles}</button>
 	</form> 
+
 	<div class="col-md-777">
-	Current Locale : ${pageContext.response.locale} / ${locale}
-	</div>
-	<div class="">
-			<div class="form-group col-md-12">
-				<label class="col-md-3 control-lable" for="language"></label>
-				<div class="col-md-77">
-					<select onChange="window.location.href=this.value">
-				        <option value="">Select language</option>
-							 <option value="?lang=en">English</option>
-							 <option value="?lang=fr">Français</option>
+			<div class="">
+
+				<div onChange="window.location.href=this.value">
 					
-				    </select>
+						<a href = "<c:url value="?lang=en"/>">
+							<img src=" <c:url value="/static/images/en.png" />" /> 
+						</a>
+					
+						<a href="<c:url value="?lang=fr"/>">
+							<img src=" <c:url value="/static/images/fr.png" />" />  
+						</a>
 				</div>
 			</div>
+	</div>
 	</div>
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -48,6 +48,11 @@
 			</h2>  
 		</c:if>	
 	</div>
+	<div class="generic-container-left">
+		<form action="${pageContext.request.contextPath}/myHistoryOrder-${pageContext.request.userPrincipal.name}"  method="GET">
+			<button  class="btn btn-primary" type="submit">Mes Commandes</button>
+		</form> 
+ 	 </div>
 	<div class="generic-container">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->

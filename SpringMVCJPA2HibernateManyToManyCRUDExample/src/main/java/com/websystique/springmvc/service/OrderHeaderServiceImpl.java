@@ -45,4 +45,9 @@ public class OrderHeaderServiceImpl implements OrderHeaderService{
 		return orderHeaderDao.findAllOrders();
 	}
 
+	@Override
+	public List<OrderHeader> findAllOrders(int id) {
+		return orderHeaderDao.findAllOrders(id);
+	}
+
 }

@@ -41,4 +41,14 @@ public class OrderHeaderDaoImpl extends AbstractDao<Integer, OrderHeader>impleme
 		return ordersHeader;
 	}
 
+
+	@Override
+	public List<OrderHeader> findAllOrders(int id) {
+		List<OrderHeader> ordersHeaderAll = getEntityManager()
+				.createQuery("SELECT o FROM OrderHeader o WHERE o.id LIKE :id")
+				.setParameter("id", id)
+				.getResultList();
+		return ordersHeaderAll;
+	}
+
 }

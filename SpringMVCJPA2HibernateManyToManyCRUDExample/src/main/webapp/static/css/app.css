@@ -18,9 +18,21 @@ body, .form-control{
 
 .generic-container {
   position:fixed;
-  width:80%;
-  margin-left: 20px;
-  margin-top: 200px;
+  width:70%;
+  margin-left: 210px;
+  margin-top: 130px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #EAE7E7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 0 30px black;
+}
+.generic-container-listOrdered{
+  position:fixed;
+  width:70%;
+  margin-left: 210px;
+  margin-top: 130px;
   margin-bottom: 20px;
   padding: 20px;
   background-color: #EAE7E7;
@@ -32,13 +44,40 @@ body, .form-control{
   position:fixed;
   width:80%;
   margin-left: 20px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 0px;
-  padding: 20px;
+  height: 140px;
+  padding: 10px;
   background-color: #EAE7E7;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 0 30px black;
+}
+.generic-container-left{
+  position:fixed;
+  width:10%;
+  height:31%;
+  margin-left: 10px;
+  margin-top: 130px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #EAE7E7;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 50px black;
+}
+.generic-container-left-listOrdered{
+  position:fixed;
+  width:10%;
+  height:31%;
+  margin-left: 10px;
+  margin-top: 130px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #EAE7E7;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 50px black;
 }
 .custom-width {
     width: 80px !important;

@@ -16,4 +16,6 @@ public interface OrderHeaderService {
 	
 	List<OrderHeader> findAllOrders();
 
+	List<OrderHeader> findAllOrders(int id);
+
 }

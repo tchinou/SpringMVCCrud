@@ -118,7 +118,7 @@ public class AppController {
 	        return userName;
 	    }
 	@RequestMapping(value = {"/listitems" }, method = RequestMethod.GET)
-	public String listItems(ModelMap model, Locale locale) {
+	public String listItems(ModelMap model, Locale locale, HttpServletRequest request) {
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
 		model.addAttribute("nameItem", messageNameItem);
 		String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
@@ -141,6 +141,18 @@ public class AppController {
 		model.addAttribute("Goto", messageGoTo);
 		String messageId = messageSource.getMessage("id.message", null, locale);
 		model.addAttribute("id", messageId);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
+		String welcome = messageSource.getMessage("welcome.message", new Object[]{"John Doe"}, locale);
+	 	String messageUser = messageSource.getMessage("user.message", null, locale);
+	 	String messageOrder = messageSource.getMessage("order.message", null, locale);
+		String messageItem = messageSource.getMessage("item.message", null, locale);
+	 	model.addAttribute("message", welcome);
+        model.addAttribute("mUser", messageUser);
+        model.addAttribute("mOrder", messageOrder);
+        model.addAttribute("mItem", messageItem);
 		return "itemslist";
 	}
 	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
@@ -174,10 +186,12 @@ public class AppController {
 		Integer q = myCart.getTotalQuantity( myCart.getProducts());
 		model.addAttribute("quan", q);
 		model.addAttribute("articles", "items");
+		String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
+		model.addAttribute("historyOrder", messageMyHistoryOrder);
 		return "itemslistpanier";
 	}
 	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
-	public String listUsers(ModelMap model, Locale locale) {
+	public String listUsers(ModelMap model, Locale locale, HttpServletRequest request) {
 
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
@@ -203,6 +217,16 @@ public class AppController {
 		model.addAttribute("Login", messageLogin);
 		String messageIdUser = messageSource.getMessage("idUser.message", null, locale);
 		model.addAttribute("Id", messageIdUser);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
+	 	String messageUser = messageSource.getMessage("user.message", null, locale);
+	 	model.addAttribute("Users", messageUser);
+	 	String messageOrder = messageSource.getMessage("order.message", null, locale);
+        model.addAttribute("Orders", messageOrder);
+	 	String messageItem = messageSource.getMessage("item.message", null, locale);
+        model.addAttribute("Items", messageItem);
 		return "userslist";
 	}
 	@RequestMapping(value = {"/interfaceAdmin"}, method = RequestMethod.GET)
@@ -855,6 +879,31 @@ public class AppController {
 		model.addAttribute("orderDesc", messageOrderDescription);
 		String msgQuantity = messageSource.getMessage("quantity.message", null, locale);
 		return "mydisplayOrderAdmin";
+	}
+	@RequestMapping(value="/myHistoryOrder-{login}", method = RequestMethod.GET)
+	public String myHistoryOrders(HttpServletRequest request,Model model, 
+			Locale locale,
+			@PathVariable String login){
+		
+			User user = userService.findByLogin(login);
+			List<OrderHeader>	ordersList = orderHeaderService.findAllOrders(user.getId());
+		
+		 	String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		 	String messageIdOrder = messageSource.getMessage("idOrder.message", null, locale);
+			model.addAttribute("idOrder", messageIdOrder);
+			String messageDateOrder = messageSource.getMessage("dateOrder.message", null, locale);
+			model.addAttribute("dateOrder", messageDateOrder);
+			String messagePriceOrder = messageSource.getMessage("priceOrder.message", null, locale);
+			model.addAttribute("PriceOrder", messagePriceOrder);
+			String messageNameUser = messageSource.getMessage("nameUser.message", null, locale);
+			model.addAttribute("NameUser", messageNameUser);
+			String messageEdit = messageSource.getMessage("edit.message", null, locale);
+			model.addAttribute("edit", messageEdit);
+			String messageDelete = messageSource.getMessage("delete.message", null, locale);
+			model.addAttribute("delete", messageDelete);
+			model.addAttribute("Orders", ordersList);
+
+		return "myHistoryOrderPage";
 	}
 	
 }

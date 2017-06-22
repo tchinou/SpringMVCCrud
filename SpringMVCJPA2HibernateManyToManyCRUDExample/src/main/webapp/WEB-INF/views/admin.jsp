@@ -13,7 +13,6 @@
 <body>
 	<h2>
 		<a href="<c:url value='/list' />">${mUser}</a>
-<%-- 		<jsp:forward page=""></jsp:forward> --%>
 	</h2>
 	<h2>
 		<a href="<c:url value='/listOrders' />" >${mOrder}</a>
