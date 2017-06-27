@@ -8,8 +8,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%-- <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link> --%>
-<%-- <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link> --%>
+<spring:url value="/static/css/style.css" var="stylecss"/>  
+	<spring:url value="/static/css/bootstrap.min.css" var="style2css"/>  
+	<link href="${stylecss}" rel="stylesheet"/>  
+	<link href="${style2css}" rel="stylesheet"/>  
 <title>${orderDesc}</title>
 </head>
 <body>
@@ -21,18 +23,9 @@
 		  	<h2>${Login}</h2>
 			<table class="table table-hover">
 	    				<thead>
-<%-- 		    				<c:forEach items="${orderheader}" var="item"> --%>
 					        <p>${reference} : ${idOrder}</p>
-					        <p>${dateOrder} : ${dateOrder}
-	<%-- 				        	<jsp:useBean id="now" class="java.util.Date"/>     --%>
-	<%-- 							<fmt:formatDate value="${now}" dateStyle="long"/> --%>
-	<%-- 							<fmt:formatDate value="${now}" pattern="dd-MM-yyyy HH:mm:ss a z" /> --%>
-					        </p>
+					        <p>${dateOrder} : ${dateOrder}</p>
 					        <p>
-	<%-- 				        	<c:set var="total" value="${0}"/> --%>
-	<%-- 							<c:forEach var="item" items="${items}"> --%>
-	<%-- 			   				<c:set var="total" value="${total + item.subtotal}" /> --%>
-	<%-- 							</c:forEach> --%>
 								  ${totalPrice} :  ${priceOrder}
 					        </p>
 					        <p>
@@ -44,7 +37,6 @@
 					        </p>
 					        <p width="100"></p>
 					        <p width="100"></p>
-<%-- 							</c:forEach> --%>
 		    			</thead>
 	    	</table>
 </div>

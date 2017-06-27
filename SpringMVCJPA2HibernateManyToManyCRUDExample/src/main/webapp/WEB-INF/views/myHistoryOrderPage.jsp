@@ -27,23 +27,16 @@
 			</div>
 	</div>
 	</div>
-	<div class="col-md-7777">
+		<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>
 			</h2>  
 		</c:if>	
 	</div>
-	  <div class="generic-container-left-listOrdered">
-			<h2>
-		<a href="<c:url value='/list' />">Users</a>
-	</h2>
-	<h2>
-		<a href="<c:url value='/listOrders' />" >Orders</a>
-	</h2>
-	<h2>
-	<a href="<c:url value='/listitems' />">Items</a>
-	</h2>
+	
+ 	 <div class="generic-container-left">
+			<h4><a href="<c:url value="/listitemspanier" />" >Go Back to Shopping</a> </h4>
  	 </div>
 <div>
 	<div class="generic-container-listOrdered"  style="overflow: scroll; height : 90%; max-height:500px">

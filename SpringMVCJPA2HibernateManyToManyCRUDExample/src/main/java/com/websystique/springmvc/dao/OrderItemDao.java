@@ -11,6 +11,8 @@ public interface OrderItemDao {
 	
 	OrderItem findById(int id);
 	
+	OrderItem findByClass();
+
 	OrderItem findByOrderId(int id);
 	
 	void save(OrderItem orderItem);

@@ -6,7 +6,7 @@ import com.websystique.springmvc.model.OrderHeader;
 
 
 public interface OrderHeaderService {
-	OrderHeader findById(int id);
+	OrderHeader findById(Integer id);
 	
 	void save(OrderHeader orderHeader);
 	
@@ -16,6 +16,6 @@ public interface OrderHeaderService {
 	
 	List<OrderHeader> findAllOrders();
 
-	List<OrderHeader> findAllOrders(int id);
+	List<OrderHeader> findAllOrders(Integer id);
 
 }

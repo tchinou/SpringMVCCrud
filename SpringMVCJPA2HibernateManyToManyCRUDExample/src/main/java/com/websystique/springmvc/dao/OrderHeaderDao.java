@@ -6,7 +6,7 @@ import com.websystique.springmvc.model.OrderHeader;
 
 public interface OrderHeaderDao {
 	
-	OrderHeader findById(int id);
+	OrderHeader findById(Integer id);
 	
 	void save(OrderHeader orderHeader);
 	
@@ -16,5 +16,5 @@ public interface OrderHeaderDao {
 	
 	List<OrderHeader> findAllOrders();
 	
-	List<OrderHeader> findAllOrders(int id);
+	List<OrderHeader> findAllOrders(Integer id);
 }

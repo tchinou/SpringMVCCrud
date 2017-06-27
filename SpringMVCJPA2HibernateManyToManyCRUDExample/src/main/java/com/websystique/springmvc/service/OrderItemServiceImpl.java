@@ -19,11 +19,6 @@ public class OrderItemServiceImpl implements OrderItemService{
 	OrderItemDao orderItemDao;
 	
 	@Override
-	public OrderItem findById(int id) {
-		return orderItemDao.findById(id);
-	}
-
-	@Override
 	public void save(OrderItem orderItem) {
 		 orderItemDao.save(orderItem);
 		
@@ -42,13 +37,23 @@ public class OrderItemServiceImpl implements OrderItemService{
 	}
 
 	@Override
+	public OrderItem findByOrderId(int id) {
+		return orderItemDao.findByOrderId(id);
+	}
+
+	@Override
 	public List<OrderItem> findAllOrderItems(int id) {
 		return orderItemDao.findAllOrderItems(id);
 	}
 
 	@Override
-	public OrderItem findByOrderId(int id) {
-		return orderItemDao.findByOrderId(id);
+	public OrderItem findById(int id) {
+		return orderItemDao.findById(id);
+	}
+
+	@Override
+	public OrderItem findByClass() {
+		return orderItemDao.findByClass();
 	}
 
 }

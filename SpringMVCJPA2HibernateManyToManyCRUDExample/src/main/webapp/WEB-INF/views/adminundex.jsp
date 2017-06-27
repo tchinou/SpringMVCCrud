@@ -19,6 +19,9 @@
 		</c:if>			
 		<h3>Go to 
 				<a href="<c:url value="/interfaceAdmin" />" > ${operation}</a>
+		</h3>
+		<h3>Go to 
+				<a href="<c:url value="/listitemspanier" />" > ${shopping}</a>
 		</h3>	
 	</div>
 </body>

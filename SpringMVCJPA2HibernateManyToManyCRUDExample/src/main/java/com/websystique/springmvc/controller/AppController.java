@@ -155,6 +155,41 @@ public class AppController {
         model.addAttribute("mItem", messageItem);
 		return "itemslist";
 	}
+	@RequestMapping(value = { "/sort-item" }, method=RequestMethod.GET)
+	public String ascSortListItemsPanier(ModelMap model, HttpServletRequest request, Locale locale, @RequestParam(value="sortfield", 
+	defaultValue="") String field) {
+		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
+		model.addAttribute("nameItem", messageNameItem);
+		String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
+		model.addAttribute("descriptionItem", messageDescriptionItem);
+		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+		model.addAttribute("priceItem", messagePriceItem);
+		String messageListofItems = messageSource.getMessage("listofItems.message", null, locale);
+		model.addAttribute("ListofItems", messageListofItems);
+		String messageDelete = messageSource.getMessage("delete.message", null, locale);
+		model.addAttribute("delete", messageDelete);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
+		String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
+		model.addAttribute("MyCart", messageMyCart);
+		if(field.equals("DESC")) model.addAttribute("price", "ASC");
+		
+		else  model.addAttribute("price", "DESC");
+		
+		List <Item> itemsList = itemService.sortItemByPriceAscDesc(field);
+		model.addAttribute("items", itemsList);
+		Locale currentLocale = LocaleContextHolder.getLocale();
+	    model.addAttribute("locale", currentLocale);
+		Cart myCart = CartUtil.getCartInSession(request);
+		Integer q = myCart.getTotalQuantity( myCart.getProducts());
+		model.addAttribute("quan", q);
+		model.addAttribute("articles", "items");
+		String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
+		model.addAttribute("historyOrder", messageMyHistoryOrder);
+		return "itemslistpanier";
+	}
 	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
 	public String listItemsPanier(ModelMap model, Locale locale, HttpServletRequest request) {
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
@@ -184,10 +219,13 @@ public class AppController {
 	    model.addAttribute("locale", currentLocale);
 		Cart myCart = CartUtil.getCartInSession(request);
 		Integer q = myCart.getTotalQuantity( myCart.getProducts());
+		BigDecimal priceMyCart = myCart.getCartPrice();
+		model.addAttribute("priceCart", priceMyCart);
 		model.addAttribute("quan", q);
 		model.addAttribute("articles", "items");
 		String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
 		model.addAttribute("historyOrder", messageMyHistoryOrder);
+		model.addAttribute("logoEuro", " &euro;");
 		return "itemslistpanier";
 	}
 	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
@@ -231,18 +269,36 @@ public class AppController {
 	}
 	@RequestMapping(value = {"/interfaceAdmin"}, method = RequestMethod.GET)
 	public String displayAdminPage(ModelMap model, Locale locale) {
-		 	String welcome = messageSource.getMessage("welcome.message", new Object[]{"John Doe"}, locale);
-		 	String messageUser = messageSource.getMessage("user.message", null, locale);
-		 	String messageOrder = messageSource.getMessage("order.message", null, locale);
-			String messageItem = messageSource.getMessage("item.message", null, locale);
-		 	model.addAttribute("message", welcome);
-	        model.addAttribute("mUser", messageUser);
-	        model.addAttribute("mOrder", messageOrder);
-	        model.addAttribute("mItem", messageItem);
-	        // obtain locale from LocaleContextHolder
-	        Locale currentLocale = LocaleContextHolder.getLocale();
-	        model.addAttribute("locale", currentLocale);
-	        model.addAttribute("startMeeting", "10:30");
+		
+	        List<User> users = userService.findAllUsers();
+			model.addAttribute("users", users);
+			String messageEdit = messageSource.getMessage("edit.message", null, locale);
+			model.addAttribute("edit", messageEdit);
+			String messageDelete = messageSource.getMessage("delete.message", null, locale);
+			model.addAttribute("delete", messageDelete);
+			String messageFirstName = messageSource.getMessage("FirstName.message", null, locale);
+			model.addAttribute("FirstName", messageFirstName);
+			String messageLastName = messageSource.getMessage("LastName.message", null, locale);
+			model.addAttribute("LastName", messageLastName);
+			String messageEmail = messageSource.getMessage("Email.message", null, locale);
+			model.addAttribute("Email", messageEmail);
+			String messageListofUsers = messageSource.getMessage("ListofUsers.message", null, locale);
+			model.addAttribute("ListofUsers", messageListofUsers);
+			String messageAddNewUser = messageSource.getMessage("AddNewUser.message", null, locale);
+			model.addAttribute("AddNewUser", messageAddNewUser);
+			String messageOperation = messageSource.getMessage("operation.message", null, locale);
+			model.addAttribute("operation", messageOperation);
+			String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
+			model.addAttribute("Goto", messageGoTo);
+			String messageLogin = messageSource.getMessage("Login.message", null, locale);
+			model.addAttribute("Login", messageLogin);
+			String messageIdUser = messageSource.getMessage("idUser.message", null, locale);
+			model.addAttribute("Id", messageIdUser);
+			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+			model.addAttribute("Welcome", messageWelcome);
+			String messageLogout = messageSource.getMessage("logout.message", null, locale);
+			model.addAttribute("Logout", messageLogout);
+		 
 		return "admin";
 	}
 	//affiche en lançant l'application la vue panier et items utilisateur 
@@ -672,50 +728,29 @@ public class AppController {
 	    model.addAttribute("locale", currentLocale);
 		Cart myCart = CartUtil.getCartInSession(request);
 		Integer qua = myCart.getTotalQuantity( myCart.getProducts());
+		BigDecimal totalPrice=new BigDecimal(0);
+		BigDecimal subtotal = new BigDecimal(0);
+	 	for(ItemInCart qa:myCart.getProducts()){
+	 		subtotal = qa.getSubtotal(); 
+	 		totalPrice = totalPrice.add(subtotal);
+	 	}
 		model.addAttribute("quan", qua);
 		model.addAttribute("articles", "items");
-		
+		model.addAttribute("logoEuro", "&euro;");
+		model.addAttribute("priceCart", totalPrice);
 		return "listitemspanierMyCart";
 	}
 	@RequestMapping(value = {"/delete-itemCart-{id}"}, method=RequestMethod.GET)
-	public String deleteProduct(HttpServletRequest request, ModelMap model, @PathVariable int id){
+	public String deleteProduct(HttpServletRequest request, ModelMap model,
+			Locale locale, @PathVariable int id){
 		if(id>0){
 			Cart myCart = CartUtil.getCartInSession(request);
 			
 			 myCart.deleteProduct(itemService.findById(id));
 		}
-		
 		return "redirect:/myCart";
 	}
 
-	@RequestMapping(value = { "/sort-item" }, method=RequestMethod.GET)
-	public String ascSortListItemsPanier(ModelMap model, Locale locale, @RequestParam(value="sortfield", 
-	defaultValue="") String field) {
-		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
-		model.addAttribute("nameItem", messageNameItem);
-		String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
-		model.addAttribute("descriptionItem", messageDescriptionItem);
-		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
-		model.addAttribute("priceItem", messagePriceItem);
-		String messageListofItems = messageSource.getMessage("listofItems.message", null, locale);
-		model.addAttribute("ListofItems", messageListofItems);
-		String messageDelete = messageSource.getMessage("delete.message", null, locale);
-		model.addAttribute("delete", messageDelete);
-		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
-		model.addAttribute("Welcome", messageWelcome);
-		String messageLogout = messageSource.getMessage("logout.message", null, locale);
-		model.addAttribute("Logout", messageLogout);
-		String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
-		model.addAttribute("MyCart", messageMyCart);
-		if(field.equals("DESC")) model.addAttribute("price", "ASC");
-		
-		else  model.addAttribute("price", "DESC");
-		
-		List <Item> itemsList = itemService.sortItemByPriceAscDesc(field);
-		model.addAttribute("items", itemsList);
-		return "itemslistpanier";
-	}
-	
 	@RequestMapping(value = "/myOrder-{login}", method=RequestMethod.GET)
 	public String orderMyCart(HttpServletRequest request, ModelMap model, 
 			Locale locale, @PathVariable String login){
@@ -728,7 +763,7 @@ public class AppController {
 				
 		System.out.println(p.getPrice());
 		model.addAttribute("items", myCart.getProducts());
-	 	for(ItemInCart q:myCart.getProducts()){
+		for(ItemInCart q:myCart.getProducts()){
 	 		subtotal = q.getSubtotal(); 
 	 		totalPrice = totalPrice.add(subtotal);
 	 	}
@@ -811,7 +846,7 @@ public class AppController {
 		OrderHeader orderHeader = orderHeaderService.findById(id);
 
 		Cart myCart = CartUtil.getCartInSession(request);
-		model.addAttribute("items",myCart.getProducts());
+		model.addAttribute("items", myCart.getProducts());
  		model.addAttribute("idOrder", orderHeader.getId());
  		model.addAttribute("dateOrder", orderHeader.getDate());
  		model.addAttribute("priceOrder", orderHeader.getPrice());
@@ -836,29 +871,28 @@ public class AppController {
 		model.addAttribute("delete", messageDelete);
 		List <OrderHeader> ordersList = orderHeaderService.findAllOrders();
 		model.addAttribute("Orders", ordersList);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
 		return "listOrdered";
 	
 	}
 	@RequestMapping(value = "/display-order-{id}", method=RequestMethod.GET)
 	public String displayOrder(HttpServletRequest request, ModelMap model, Locale locale,
 			@PathVariable int id) {
-		List<ItemInCart> itemsInCart = new ArrayList<>();
-		List<OrderItem> orderItemFromTable = new ArrayList<>();
 
 		OrderHeader orderHeader = orderHeaderService.findById(id);
-		/*OrderItem orderItem = orderItemService.findByOrderId(orderHeader.getId());
-		orderItemFromTable.add(orderItem);
-		Item item = itemService.findById(orderItem.getItem().getId());
-		ItemInCart itemInCartFromOrder = new ItemInCart();
-		itemInCartFromOrder.setName(item.getName());
-		itemInCartFromOrder.setPrice(item.getPrice());
-		itemInCartFromOrder.setQuantity(orderItem.getNbItem());
-		itemInCartFromOrder.setSubtotal(itemInCartFromOrder
-				.getSubtotalFromOrderTable(item.getPrice(), orderItem.getNbItem()));*/
-		
-		Cart myCart = CartUtil.getCartInSession(request);
+		List<OrderItem> itemsFromOrderHeader = orderItemService.findAllOrderItems(id);
+
+		Cart myCart = new Cart();
+		for(int i=0; i<itemsFromOrderHeader.size(); i++){
+			//if(itemsFromOrderHeader.get(i).getIdOrderItem().getOrderHead().getId() == id){
+				myCart.addProduct(itemsFromOrderHeader.get(i).getItem(),
+						 itemsFromOrderHeader.get(i).getNbItem());
+			//}
+		}
 		model.addAttribute("items",myCart.getProducts());
-		
 		model.addAttribute("quantityArticle", orderHeader.getNumberOfCartItems());	 
  		model.addAttribute("idOrder", orderHeader.getId());
  		model.addAttribute("dateOrderFromOrder", orderHeader.getDate());
@@ -877,7 +911,7 @@ public class AppController {
 		model.addAttribute("reference", messageReference);
 		String messageOrderDescription = messageSource.getMessage("orderDesc.message", null, locale);
 		model.addAttribute("orderDesc", messageOrderDescription);
-		String msgQuantity = messageSource.getMessage("quantity.message", null, locale);
+
 		return "mydisplayOrderAdmin";
 	}
 	@RequestMapping(value="/myHistoryOrder-{login}", method = RequestMethod.GET)
@@ -888,7 +922,6 @@ public class AppController {
 			User user = userService.findByLogin(login);
 			List<OrderHeader>	ordersList = orderHeaderService.findAllOrders(user.getId());
 		
-		 	String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 		 	String messageIdOrder = messageSource.getMessage("idOrder.message", null, locale);
 			model.addAttribute("idOrder", messageIdOrder);
 			String messageDateOrder = messageSource.getMessage("dateOrder.message", null, locale);
@@ -902,6 +935,10 @@ public class AppController {
 			String messageDelete = messageSource.getMessage("delete.message", null, locale);
 			model.addAttribute("delete", messageDelete);
 			model.addAttribute("Orders", ordersList);
+			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+			model.addAttribute("Welcome", messageWelcome);
+			String messageLogout = messageSource.getMessage("logout.message", null, locale);
+			model.addAttribute("Logout", messageLogout);
 
 		return "myHistoryOrderPage";
 	}

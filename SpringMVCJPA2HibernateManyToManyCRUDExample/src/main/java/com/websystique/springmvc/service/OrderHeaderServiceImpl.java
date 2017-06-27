@@ -18,7 +18,7 @@ public class OrderHeaderServiceImpl implements OrderHeaderService{
 	OrderHeaderDao orderHeaderDao;
 	
 	@Override
-	public OrderHeader findById(int id) {
+	public OrderHeader findById(Integer id) {
 		return orderHeaderDao.findById(id);
 	}
 
@@ -46,7 +46,7 @@ public class OrderHeaderServiceImpl implements OrderHeaderService{
 	}
 
 	@Override
-	public List<OrderHeader> findAllOrders(int id) {
+	public List<OrderHeader> findAllOrders(Integer id) {
 		return orderHeaderDao.findAllOrders(id);
 	}
 

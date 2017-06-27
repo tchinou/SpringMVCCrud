@@ -14,10 +14,6 @@ import com.websystique.springmvc.model.OrderItem;
 @Repository("orderItemDao")
 public class OrderItemDaoImpl extends AbstractDao<Integer, OrderItem> implements OrderItemDao{
 
-	@Override
-	public OrderItem findById(int id) {
-		return null;
-	}
 
 	@Override
 	public void save(OrderItem orderItem) {
@@ -36,19 +32,11 @@ public class OrderItemDaoImpl extends AbstractDao<Integer, OrderItem> implements
 		
 	}
 
-	@Override
-	public List<OrderItem> findAllOrderItems(int id) {
-		List <OrderItem> orderItem = (List<OrderItem>) getEntityManager()
-				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.item.id LIKE :id")
-				.setParameter("id", id)
-				.getResultList();
-		return orderItem;
-	}
 
 	@Override
 	public OrderItem findByOrderId(int id) {
 		OrderItem orderItem = (OrderItem) getEntityManager()
-				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.item.id LIKE :id")
+				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.item.iœd = :id")
 				.setParameter("id", id)
 				.getResultList();
 		return orderItem;
@@ -57,6 +45,30 @@ public class OrderItemDaoImpl extends AbstractDao<Integer, OrderItem> implements
 	@Override
 	public List<OrderItem> findAllWithOrderHeaderId(OrderHeader orderHeader) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OrderItem> findAllOrderItems(int id) {
+		List <OrderItem> listOrderItem = (List<OrderItem>) getEntityManager()
+				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.orderHead.id LIKE :id")
+				.setParameter("id", id)
+				.getResultList();
+		return listOrderItem;
+	}
+
+	@SuppressWarnings("unchecked")
+	public OrderItem findById(int id) {
+		OrderItem orderItem = (OrderItem) getEntityManager()
+				.createQuery("SELECT o FROM OrderItem o WHERE o.idOrderItem.orderHead.id = :id")
+				.setParameter("id", id)
+				.getResultList();
+		System.out.print("lyesssssssss"+orderItem.getNbItem());
+		return orderItem;
+	}
+
+	@Override
+	public OrderItem findByClass() {
 		return null;
 	}
 

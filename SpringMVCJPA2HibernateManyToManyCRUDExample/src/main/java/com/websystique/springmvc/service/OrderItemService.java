@@ -9,6 +9,8 @@ import com.websystique.springmvc.model.OrderItem;
 public interface OrderItemService {
 	OrderItem findById(int id);
 	
+	OrderItem findByClass();
+	
 	OrderItem findByOrderId(int id);
 
 	void save(OrderItem orderItem);

@@ -19,6 +19,12 @@ public class OrderItemId implements Serializable{
 	public OrderItemId() {
 	
 	}
+	public OrderItemId(OrderHeader orderHead, Item item) {
+
+		this.orderHead = orderHead;
+		this.item = item;
+		
+	}
 	@ManyToOne(cascade=CascadeType.ALL)
 	public OrderHeader getOrderHead() {
 		return orderHead;

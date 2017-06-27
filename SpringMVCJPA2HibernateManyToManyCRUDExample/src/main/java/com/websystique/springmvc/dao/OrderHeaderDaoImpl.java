@@ -10,7 +10,7 @@ import com.websystique.springmvc.model.OrderHeader;
 public class OrderHeaderDaoImpl extends AbstractDao<Integer, OrderHeader>implements OrderHeaderDao{
 
 	@Override
-	public OrderHeader findById(int id) {
+	public OrderHeader findById(Integer id) {
 		OrderHeader orderHeader = getByKey(id); 
 		return orderHeader;
 	}
@@ -43,9 +43,10 @@ public class OrderHeaderDaoImpl extends AbstractDao<Integer, OrderHeader>impleme
 
 
 	@Override
-	public List<OrderHeader> findAllOrders(int id) {
+	public List<OrderHeader> findAllOrders(Integer id) {
+		@SuppressWarnings("unchecked")
 		List<OrderHeader> ordersHeaderAll = getEntityManager()
-				.createQuery("SELECT o FROM OrderHeader o WHERE o.id LIKE :id")
+				.createQuery("SELECT o FROM OrderHeader o WHERE o.user.id = :id")
 				.setParameter("id", id)
 				.getResultList();
 		return ordersHeaderAll;
