@@ -38,8 +38,9 @@
                      <td class="price">${item.price}</td>
                   	 <td class="price">${item.subtotal}</td>
                   	 <td>
-                  	 	<a class="btn btn-warning" type="button" href="<c:url value='/delete-itemCart-${item.id}'/>">Delete</a>
+                  	 	<a class="btn btn-warning" type="button" href="<c:url value='/delete-itemCart-${item.id}?login=${Login}'/>">Delete</a>
 					 </td>
+<%-- 					// //sort-item?sortfield=${price} --%>
 				
                </tr>
             </c:forEach>

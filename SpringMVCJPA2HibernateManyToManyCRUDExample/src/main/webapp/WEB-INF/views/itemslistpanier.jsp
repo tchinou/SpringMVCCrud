@@ -23,7 +23,7 @@
 	<div class="generic-cuntainer">
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 
-		 	<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} ${priceCart}: ${logoEuro} </button>
+		 	<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro} </button>
 	</form> 
 
 	<div class="col-md-777">

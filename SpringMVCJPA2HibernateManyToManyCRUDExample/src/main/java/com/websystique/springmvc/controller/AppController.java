@@ -188,6 +188,14 @@ public class AppController {
 		model.addAttribute("articles", "items");
 		String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
 		model.addAttribute("historyOrder", messageMyHistoryOrder);
+		model.addAttribute("logoEuro", " &euro;");
+		BigDecimal totalPrice=new BigDecimal(0);
+		BigDecimal subtotal = new BigDecimal(0);
+	 	for(ItemInCart qa:myCart.getProducts()){
+	 		subtotal = qa.getSubtotal(); 
+	 		totalPrice = totalPrice.add(subtotal);
+	 	}
+	 	model.addAttribute("priceCart", totalPrice);
 		return "itemslistpanier";
 	}
 	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
@@ -734,7 +742,7 @@ public class AppController {
 	 		subtotal = qa.getSubtotal(); 
 	 		totalPrice = totalPrice.add(subtotal);
 	 	}
-		model.addAttribute("quan", qua);
+	 	model.addAttribute("quan", qua);
 		model.addAttribute("articles", "items");
 		model.addAttribute("logoEuro", "&euro;");
 		model.addAttribute("priceCart", totalPrice);
@@ -742,13 +750,32 @@ public class AppController {
 	}
 	@RequestMapping(value = {"/delete-itemCart-{id}"}, method=RequestMethod.GET)
 	public String deleteProduct(HttpServletRequest request, ModelMap model,
-			Locale locale, @PathVariable int id){
+			Locale locale, @PathVariable int id, @RequestParam(value="login", 
+			defaultValue="") String login){
 		if(id>0){
 			Cart myCart = CartUtil.getCartInSession(request);
 			
 			 myCart.deleteProduct(itemService.findById(id));
+		
+		 String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+	 	 model.addAttribute("Welcome", messageWelcome);
+		 model.addAttribute("items", myCart.getProducts());
+		 model.addAttribute("Login", login); 
+		 model.addAttribute("Lyes", myCart.getTotalQuantity(myCart.getProducts()));
+ 		 String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
+ 		 model.addAttribute("nameItem", messageNameItem);
+		 String msgQuantity = messageSource.getMessage("quantity.message", null, locale);
+		 model.addAttribute("quantity", msgQuantity);
+	     String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
+	     model.addAttribute("priceItem", messagePriceItem);
+	     String messagePriceTotal = messageSource.getMessage("totalPrice.message", null, locale);
+		 model.addAttribute("totalPrice", messagePriceTotal);
+ 		 String messageItemNumber = messageSource.getMessage("itemNumber.message", null, locale);
+		 model.addAttribute("itemNumber", messageItemNumber);
+		 String messageOrderMyCart = messageSource.getMessage("orderMyCart.message", null, locale);
+		 model.addAttribute("OrderMyCart", messageOrderMyCart);
 		}
-		return "redirect:/myCart";
+		return "mycart";
 	}
 
 	@RequestMapping(value = "/myOrder-{login}", method=RequestMethod.GET)
