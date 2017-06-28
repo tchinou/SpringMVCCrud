@@ -18,17 +18,10 @@
 	<script src="<c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.js" />"></script>
 </head>
 
-
-<body>
-<html>
-
-
 <body>
 	<div class="generic-cuntainer">
 
 	<div class="col-md-777">
-			<div class="">
-
 				<div onChange="window.location.href=this.value">
 					
 						<a href = "<c:url value="?lang=en"/>">
@@ -39,19 +32,43 @@
 							<img src=" <c:url value="/static/images/fr.png" />" />  
 						</a>
 				</div>
-			</div>
 	</div>
-	</div>
-	<div class="col-md-7777">
+
+   <div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>
 			</h2>  
 		</c:if>	
 	</div>
-		<div class="generic-container">
+	<div class="generic-container-left">
+		<table class="table-admin">
+	
+		<tr class="hr-users">
+			<td>
+				<h2>	
+					<a href="<c:url value='/list' />">Users</a>
+				</h2>
+			</td>
+		</tr >
+		<tr class="hr-orders" >
+			<td>
+				<h2>
+					<a href="<c:url value='/listOrders' />" >Orders</a>
+				</h2>
+			</td>
+		</tr>
+		<tr class="hr-items">
+			<td>
+				<h2>
+					<a href="<c:url value='/listitems' />">Items</a>
+				</h2>
+			</td>
+		</tr >
+		</table>
+ 	</div>
+ 	<div class="generic-container">
 		<div class="panel panel-default">
-			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ListofUsers} </span></div>
 			<table class="table table-hover">
 	    		<thead>
@@ -68,7 +85,9 @@
 	    		<tbody>
 				<c:forEach items="${users}" var="user">
 					<tr>
-						<td>${user.id}</td>
+						<td>
+							<a href="<c:url value='/edit-user-${user.id}' />">${user.id}</a>
+						</td>
 						<td>${user.firstName}</td>
 						<td>${user.lastName}</td>
 						<td>${user.email}</td>
@@ -85,16 +104,7 @@
 	 		<a href="<c:url value="/interfaceAdmin" />">${Goto} ${operation}</a>
 	 	</div>
    	</div>
-   <div class="generic-container-left">
-			<h2>	
-				<a href="<c:url value='/list' />">Users</a>
-			</h2>
-			<h2>
-				<a href="<c:url value='/listOrders' />" >Orders</a>
-			</h2>
-			<h2>
-				<a href="<c:url value='/listitems' />">Items</a>
-			</h2>
-   </div>
+	</div>
+	
 </body>
 </html>

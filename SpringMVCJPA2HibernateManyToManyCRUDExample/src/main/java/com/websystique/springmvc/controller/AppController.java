@@ -440,7 +440,10 @@ public class AppController {
 		model.addAttribute("Password", messagePassword);
 		String messageLogin = messageSource.getMessage("Login.message", null, locale);
 		model.addAttribute("Login", messageLogin);
-		
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Logout", messageLogout);
 		return "registration";
 	}
 
@@ -488,6 +491,10 @@ public class AppController {
 			model.addAttribute("Register", messageRegister);
 			String messageCancel = messageSource.getMessage("cancel.message", null, locale);
 			model.addAttribute("cancel", messageCancel);
+			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+			model.addAttribute("Welcome", messageWelcome);
+			String messageLogout = messageSource.getMessage("logout.message", null, locale);
+			model.addAttribute("Logout", messageLogout);
 			return "registration";
 		}
 		
@@ -536,6 +543,10 @@ public class AppController {
 		model.addAttribute("Password", messagePassword);
 		String messageLogin = messageSource.getMessage("Login.message", null, locale);
 		model.addAttribute("Login", messageLogin);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		model.addAttribute("Logout", messageLogout);
 		return "registration";
 	}
 	
@@ -611,9 +622,14 @@ public class AppController {
 		String messageUpdate = messageSource.getMessage("update.message", null, locale);
 		model.addAttribute("Update", messageUpdate);
 		String messageRegister = messageSource.getMessage("register.message", null, locale);
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		model.addAttribute("Logout", messageLogout);
 		model.addAttribute("Register", messageRegister);
 		model.addAttribute("item", item);
 		model.addAttribute("edit", false);
+	
 		return "ajoutitem";
 	}
 
@@ -900,6 +916,8 @@ public class AppController {
 		model.addAttribute("Orders", ordersList);
 		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 		model.addAttribute("Welcome", messageWelcome);
+		String messageOrdersList = messageSource.getMessage("ordersList.message", null, locale);
+		model.addAttribute("ordersList", messageOrdersList);
 		String messageLogout = messageSource.getMessage("logout.message", null, locale);
 		model.addAttribute("Logout", messageLogout);
 		return "listOrdered";
@@ -938,7 +956,10 @@ public class AppController {
 		model.addAttribute("reference", messageReference);
 		String messageOrderDescription = messageSource.getMessage("orderDesc.message", null, locale);
 		model.addAttribute("orderDesc", messageOrderDescription);
-
+		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+		String messageLogout = messageSource.getMessage("logout.message", null, locale);
+		model.addAttribute("Welcome", messageWelcome);
+		model.addAttribute("Logout", messageLogout);
 		return "mydisplayOrderAdmin";
 	}
 	@RequestMapping(value="/myHistoryOrder-{login}", method = RequestMethod.GET)

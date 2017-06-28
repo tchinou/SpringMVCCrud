@@ -68,7 +68,54 @@
 </head>
 
 <body>
+	<div class="generic-cuntainer">
 
+	<div class="col-md-777">
+				<div onChange="window.location.href=this.value">
+					
+						<a href = "<c:url value="?lang=en"/>">
+							<img src=" <c:url value="/static/images/en.png" />" /> 
+						</a>
+					
+						<a href="<c:url value="?lang=fr"/>">
+							<img src=" <c:url value="/static/images/fr.png" />" />  
+						</a>
+				</div>
+	</div>
+
+   <div class="col-md-7777">
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
+				<a href="<c:url value="/logout" />" > ${Logout}</a>
+			</h2>  
+		</c:if>	
+	</div>
+	<div class="generic-container-left">
+			<table class="table-admin">
+	
+		<tr class="hr-users">
+			<td>
+				<h2>	
+					<a href="<c:url value='/list' />">Users</a>
+				</h2>
+			</td>
+		</tr >
+		<tr class="hr-orders" >
+			<td>
+				<h2>
+					<a href="<c:url value='/listOrders' />" >Orders</a>
+				</h2>
+			</td>
+		</tr>
+		<tr class="hr-items">
+			<td>
+				<h2>
+					<a href="<c:url value='/listitems' />">Items</a>
+				</h2>
+			</td>
+		</tr >
+		</table>
+ 	</div>
  	<div class="generic-container">
 	<div class="well lead">${UserRegistrationForm}</div>
  	<form:form method="POST" modelAttribute="user" class="form-horizontal" id="reg_form" name="registration">
@@ -185,6 +232,7 @@
 			</div>
 		</div>
 	</form:form>
+	</div>
 	</div>
 </body>
 </html>

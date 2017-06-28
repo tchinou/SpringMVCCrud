@@ -8,20 +8,70 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<spring:url value="/static/css/style.css" var="stylecss"/>  
-	<spring:url value="/static/css/bootstrap.min.css" var="style2css"/>  
+	
+	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 	<link href="${stylecss}" rel="stylesheet"/>  
 	<link href="${style2css}" rel="stylesheet"/>  
 
 <title>${orderDesc}</title>
 </head>
 <body>
-<u class="btn btn-primary">${orderDesc}</u>
+	<div class="generic-cuntainer">
+
+	<div class="col-md-777">
+
+				<div onChange="window.location.href=this.value">
+					
+						<a href = "<c:url value="?lang=en"/>">
+							<img src=" <c:url value="/static/images/en.png" />" /> 
+						</a>
+					
+						<a href="<c:url value="?lang=fr"/>">
+							<img src=" <c:url value="/static/images/fr.png" />" />  
+						</a>
+				</div>
+	</div>
+	<div class="col-md-7777">
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
+				<a href="<c:url value="/logout" />" > ${Logout}</a>
+			</h2>  
+		</c:if>	
+	</div>
+	<div class="generic-container-left">
+			<table class="table-admin">
+	
+		<tr class="hr-users">
+			<td>
+				<h2>	
+					<a href="<c:url value='/list' />">Users</a>
+				</h2>
+			</td>
+		</tr >
+		<tr class="hr-orders" >
+			<td>
+				<h2>
+					<a href="<c:url value='/listOrders' />" >Orders</a>
+				</h2>
+			</td>
+		</tr>
+		<tr class="hr-items">
+			<td>
+				<h2>
+					<a href="<c:url value='/listitems' />">Items</a>
+				</h2>
+			</td>
+		</tr >
+		</table>
+   	</div>
+
 <div class="generic-container">
+	<u class="btn btn-primary">${orderDesc}</u>
 	<div class="panel panel-default">
-			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ListofItems} </span></div>
 		  	<h2>${Login}</h2>
+
 			<table class="table table-hover">
 	    				<thead>
 <%-- 		    				<c:forEach items="${orderheader}" var="item"> --%>
@@ -36,8 +86,8 @@
 <%-- 							</c:forEach> --%>
 		    			</thead>
 	    	</table>
-</div>
 	</div>
+
 <div style="overflow-x:auto;">
  	<table class="table table-striped">
         
@@ -62,10 +112,12 @@
     </table>
 </div>
 
-<div style="overflow-x:auto;">
-		<form action="${pageContext.request.contextPath}"  method="GET">
-		 	<button  class="btn btn-primary" type="submit"> Go back to menu</button>
-		</form> 
+<!-- <div style="overflow-x:auto;"> -->
+<%-- 		<form action="${pageContext.request.contextPath}"  method="GET"> --%>
+<!-- 		 	<button  class="btn btn-primary" type="submit"> Go back to menu</button> -->
+<%-- 		</form>  --%>
+<!-- </div> -->
+</div>
 </div>
 </body>
 </html>

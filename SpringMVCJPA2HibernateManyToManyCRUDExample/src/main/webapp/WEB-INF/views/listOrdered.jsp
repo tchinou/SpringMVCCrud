@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 
 <head>
@@ -26,7 +27,6 @@
 				</div>
 			</div>
 	</div>
-	</div>
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
@@ -34,18 +34,34 @@
 			</h2>  
 		</c:if>	
 	</div>
-	  <div class="generic-container-left-listOrdered">
-			<h2>
-		<a href="<c:url value='/list' />">Users</a>
-	</h2>
-	<h2>
-		<a href="<c:url value='/listOrders' />" >Orders</a>
-	</h2>
-	<h2>
-	<a href="<c:url value='/listitems' />">Items</a>
-	</h2>
+		
+	 <div class="generic-container-left-listOrdered">
+		<table class="table-admin">
+	
+		<tr class="hr-users">
+			<td>
+				<h2>	
+					<a href="<c:url value='/list' />">Users</a>
+				</h2>
+			</td>
+		</tr >
+		<tr class="hr-orders" >
+			<td>
+				<h2>
+					<a href="<c:url value='/listOrders' />" >Orders</a>
+				</h2>
+			</td>
+		</tr>
+		<tr class="hr-items">
+			<td>
+				<h2>
+					<a href="<c:url value='/listitems' />">Items</a>
+				</h2>
+			</td>
+		</tr >
+		</table>
  	 </div>
-<div>
+	
 	<div class="generic-container-listOrdered"  style="overflow: scroll; height : 90%; max-height:500px">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
@@ -82,6 +98,7 @@
 	 	 	<a href="<c:url value="/interfaceAdmin" />">${Goto} ${operation}</a>
 	 	</div>
    	</div>
-</div>
+   </div>
+
 </body>
 </html>

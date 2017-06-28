@@ -5,6 +5,30 @@
  */
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+tr{
+	 border-bottom: 1px solid #000 ; 
+	 width: 100% ;
+	 height: 1px;
+/*   padding: 8px; */
+/*   line-height: 1.42857143; */
+/*   vertical-align: bottom; */
+/*   border-top: 10px solid #ddd; */
+}
+hr {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 0;
+       width: 100%;
+       max-height: 0;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border: none;
+       border-top: 1px solid #aaaaaa;
+       border-bottom: 1px solid #ffffff;
+    }
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -270,6 +294,7 @@ th {
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+
 .glyphicon {
   position: relative;
   top: 1px;
@@ -2258,8 +2283,27 @@ pre code {
     margin-left: 0;
   }
 }
-table {
+.table-admin {
   background-color: transparent;
+  border: 2px solid #ddd;
+  width:  10%;
+  height: 50%;
+  display: block;
+  line-height: 1.42857143;
+  vertical-align: top;
+ 
+}
+hr.hr-users{
+	border-top: 1px solid #8c8b8b; 
+	border-bottom : 1px solid black;
+	}
+hr.hr-orders{
+	border-top: 1px solid #8c8b8b; 
+	   
+}
+hr.hr-items{
+	border-top: 3px solid #8c8b8b; 
+	   
 }
 caption {
   padding-top: 8px;

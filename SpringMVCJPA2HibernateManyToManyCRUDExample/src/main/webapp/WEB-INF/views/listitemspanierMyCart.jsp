@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<div class="generic-cuntainer">
+	<div class="generic-cuntainer-userPage">
 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
 		 
 		 	<button  class="btn btn-primary" type="submit">${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro}</button>
@@ -40,7 +40,7 @@
 				</div>
 			</div>
 	</div>
-	</div>
+
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
@@ -48,7 +48,7 @@
 			</h2>  
 		</c:if>	
 	</div>
-	<div class="generic-container-left">
+	<div class="generic-container-left-userPage">
 		<form action="${pageContext.request.contextPath}/myHistoryOrder-${pageContext.request.userPrincipal.name}"  method="GET">
 			<button  class="btn btn-primary" type="submit">Mes Commandes</button>
 		</form> 
@@ -95,5 +95,6 @@
 	    	</table>
 		</div>
    	</div>
+   </div>
 </body>
 </html>
