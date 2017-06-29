@@ -11,6 +11,8 @@
 	
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value="/static/css/styles.css" />" rel="stylesheet" />
+	
 	<link href="${stylecss}" rel="stylesheet"/>  
 	<link href="${style2css}" rel="stylesheet"/>  
 
@@ -21,16 +23,20 @@
 
 	<div class="col-md-777">
 
-				<div onChange="window.location.href=this.value">
+		<div onChange="window.location.href=this.value">
 					
-						<a href = "<c:url value="?lang=en"/>">
-							<img src=" <c:url value="/static/images/en.png" />" /> 
-						</a>
+			<a href = "<c:url value="?lang=en"/>">
+				<img src=" <c:url value="/static/images/en.png" />" /> 
+			</a>
 					
-						<a href="<c:url value="?lang=fr"/>">
-							<img src=" <c:url value="/static/images/fr.png" />" />  
-						</a>
-				</div>
+			<a href="<c:url value="?lang=fr"/>">
+			 	<img src=" <c:url value="/static/images/fr.png" />" />  
+			</a>
+		</div>
+	</div>
+	<div class="select-language">
+		<c:import url="/static/html/language.html" />
+		${pageContext.response.locale}
 	</div>
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -40,30 +46,7 @@
 		</c:if>	
 	</div>
 	<div class="generic-container-left">
-			<table class="table-admin">
-	
-		<tr class="hr-users">
-			<td>
-				<h2>	
-					<a href="<c:url value='/list' />">Users</a>
-				</h2>
-			</td>
-		</tr >
-		<tr class="hr-orders" >
-			<td>
-				<h2>
-					<a href="<c:url value='/listOrders' />" >Orders</a>
-				</h2>
-			</td>
-		</tr>
-		<tr class="hr-items">
-			<td>
-				<h2>
-					<a href="<c:url value='/listitems' />">Items</a>
-				</h2>
-			</td>
-		</tr >
-		</table>
+		<c:import url="/static/html/menu.html" />		
    	</div>
 
 <div class="generic-container">
