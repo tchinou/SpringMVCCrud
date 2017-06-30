@@ -79,6 +79,8 @@
 		<c:import url="/static/html/menu.html" />
  	</div>
  	<div class="generic-container">
+ 		<div class="panel panel-default">
+ 	
 	<div class="well lead">${ItemRegistrationForm}</div>
  	<form:form method="POST" modelAttribute="item" class="form-horizontal" id="reg_form" name="registration">
 		<form:input type="hidden" path="id" />

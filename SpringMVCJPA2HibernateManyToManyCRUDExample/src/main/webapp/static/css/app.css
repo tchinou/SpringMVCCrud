@@ -9,6 +9,20 @@ body, #mainWrapper {
   padding-left: 800px;
   top: 10px;
   right:450px;
+
+}
+#side-by-side{
+	display: flex;
+}
+side-by-side > div{
+	flex: 1;
+}
+.div-container{
+	display: flex;
+	float:left;
+}
+.div-container > div {
+	flex: 1;
 }
 body, .form-control{
 	font-size:12px!important;
@@ -38,7 +52,7 @@ body, .form-control{
 }
 .generic-container-listOrdered{
   position:fixed;
-  width:89%;
+  width:60%;
   margin-left: 210px;
   margin-top: 130px;
   margin-bottom: 20px;
@@ -47,7 +61,7 @@ body, .form-control{
   
 /*   background-color: #EAE7E7; */
 /*   border: 1px solid #ddd; */
-  border-radius: 4px;
+/*   border-radius: 4px; */
 /*   box-shadow: 0 0 30px black; */
 }
 .generic-cuntainer {
@@ -126,5 +140,5 @@ body, .form-control{
 /*   box-shadow: 0 0 50px black; */
 }
 .custom-width {
-    width: 80px !important;
+    width: 100px !important;
 }

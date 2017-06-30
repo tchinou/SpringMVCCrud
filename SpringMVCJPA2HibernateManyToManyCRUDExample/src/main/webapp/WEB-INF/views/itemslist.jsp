@@ -47,6 +47,9 @@
    	</div>
    	<div class="generic-container">
 		<div class="panel panel-default">
+		<div class="well">
+	 			<a href="<c:url value='/newitem' />">${AddNewItem}</a> </br>
+	 	</div>
 			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ListofItems} </span></div>
 			<table class="table table-hover">
@@ -76,9 +79,6 @@
 	    		</tbody>
 	    	</table>
 		</div>
-	 	<div class="well">
-	 		<a href="<c:url value='/newitem' />">${AddNewItem}</a> </br>
-	 	</div>
    	</div>
   
 	</div>

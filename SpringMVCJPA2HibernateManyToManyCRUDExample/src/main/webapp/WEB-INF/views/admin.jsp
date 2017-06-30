@@ -11,8 +11,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Users List</title>
-	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 	<link href=" <c:url value="/static/css/styles.css" />" rel="stylesheet" />
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.css" />" rel="stylesheet"/>  
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.structure.css" />" rel="stylesheet"/>  
@@ -21,30 +21,30 @@
 	<script src="<c:url value="/static/js/jquery-3.2.0.js" />"></script>
 	<script src="<c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.js" />"></script>
 	<script src="<c:url value="/static/js/jquery-latest.min.js" />"></script>
+	<script src="<c:url value="/static/js/language.js" />"></script>
 
 </head>
 
 <body>
-<div class="container">
 	<div class="generic-cuntainer">
 
 	<div class="col-md-777">
-		<div onChange="window.location.href=this.value">
-					
-			<a href = "<c:url value="?lang=en"/>">
-				<img src=" <c:url value="/static/images/en.png" />" /> 
-			</a>
-			<a href="<c:url value="?lang=fr"/>">
-				<img src=" <c:url value="/static/images/fr.png" />" />  
-			</a>
-		</div>
-				
+		<img id="uk" src=" <c:url value="/static/images/en.png" />" /> 
+		<img id="fr" src=" <c:url value="/static/images/fr.png" />"/>  
 	</div>
+	<div class="div-container" id="side-by-side">
 	<div class="select-language">
-		<c:import url="/static/html/language.html" />
-		${pageContext.response.locale}
+<%-- 		<c:import url="/static/html/language.html" /> --%>
+		<select id="hideShow" onChange="window.location.href=this.value">
+			<option value="null">${pageContext.response.locale}</option>
+			<option value="?lang=en" ><a href = "?lang=en"> English</a></option>
+			<option value="?lang=fr"> <a href = "?lang=fr">French</a></option>
+					
+		</select>
+		
 	</div>
-   <div class="col-md-7777">
+	</div>
+   	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>
@@ -55,8 +55,12 @@
 	<div class="generic-container-left">
 		<c:import url="/static/html/menu.html" />
  	</div>
+ 	
  	<div class="generic-container">
 		<div class="panel panel-default">
+		<div class="well">
+	 		<a href="<c:url value='/newuser' />">${AddNewUser}</a></br>
+		</div>
 		  	<div class="panel-heading"><span class="lead">${ListofUsers} </span></div>
 			<table class="table table-hover">
 	    		<thead>
@@ -87,11 +91,8 @@
 	    		</tbody>
 	    	</table>
 		</div>
-	 	<div class="well">
-	 		<a href="<c:url value='/newuser' />">${AddNewUser}</a></br>
-	 	</div>
    	</div>
 	</div>
-</div>	
+	
 </body>
 </html>
