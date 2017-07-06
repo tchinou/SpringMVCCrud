@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -72,9 +75,10 @@ public class AppController {
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ModelAndView visitHome() {
-		return new ModelAndView("undex");
+	@RequestMapping(value= "/", method = RequestMethod.GET)
+	public ModelAndView visitHome(ModelMap model) {
+		model.addAttribute("user", getPrincipal());
+		return new ModelAndView("login");
 	}
 	@RequestMapping(value = "/db", method = RequestMethod.GET)
 	public ModelAndView visitUser(Locale locale) {
@@ -116,6 +120,19 @@ public class AppController {
 	            userName = principal.toString();
 	        }
 	        return userName;
+	    }
+	 @RequestMapping(value = "/login", method = RequestMethod.GET)
+	    public String loginPage() {
+	        return "login";
+	    }
+	 
+	    @RequestMapping(value="/logout", method = RequestMethod.GET)
+	    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        if (auth != null){    
+	            new SecurityContextLogoutHandler().logout(request, response, auth);
+	        }
+	        return "redirect:/login?logout";
 	    }
 	@RequestMapping(value = {"/listitems" }, method = RequestMethod.GET)
 	public String listItems(ModelMap model, Locale locale, HttpServletRequest request) {

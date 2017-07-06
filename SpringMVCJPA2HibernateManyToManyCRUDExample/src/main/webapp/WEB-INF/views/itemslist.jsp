@@ -5,14 +5,17 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Users List</title>
-	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
-	<link href="<c:url value='/static/css/styles.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value="/static/css/styles.css" />" rel="stylesheet" />
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.css" />" rel="stylesheet"/>  
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.structure.css" />" rel="stylesheet"/>  
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.theme.css" />" rel="stylesheet"/>  
 	<script src="<c:url value="/static/js/jquery-3.2.0.js" />"></script>
+	<script src="<c:url value="/static/js/jquery-3.2.1.min.js" />"></script>
 	<script src="<c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.js" />"></script>
+	<script src="<c:url value="/static/js/jquery-latest.min.js" />"></script>
+	<script src="<c:url value="/static/js/language.js" />"></script>
 </head>
 
 <body>
@@ -20,20 +23,26 @@
 
 	<div class="col-md-777">
 
-				<div onChange="window.location.href=this.value">
-					
-						<a href = "<c:url value="?lang=en"/>">
-							<img src=" <c:url value="/static/images/en.png" />" /> 
-						</a>
-					
-						<a href="<c:url value="?lang=fr"/>">
-							<img src=" <c:url value="/static/images/fr.png" />" />  
-						</a>
-				</div>
 	</div>
 	<div class="select-language">
-		<c:import url="/static/html/language.html" />
-		${pageContext.response.locale}
+		<select id="lang_choice" name="lang_choice" onChange="window.location.href=this.value">
+			<option value="">${pageContext.response.locale}</option>
+			<option value="?lang=en" name="en" > English</option>
+			<option value="?lang=fr" name="fr" > French</option>
+			
+		</select>
+		<c:set var ="testValue" value="${pageContext.response.locale}" ></c:set>
+			 <c:choose>
+				 <c:when test="${testValue == 'en'}">
+				 	<option value="?lang=en" name="en" class="uk">
+						English	</option>
+				 </c:when>
+				 <c:otherwise>
+					<option value="?lang=fr" name="fr" class="fr" >
+						French
+					</option>
+				</c:otherwise>
+			</c:choose>	
 	</div>
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">

@@ -1,43 +1,44 @@
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 200px;
-    background-color: white;
-    
+
+#lang_choice {
+    background-repeat: no-repeat;
+/*     background-image: url(http://pascha.org/img/fr.png); */
+    background-position: right center;
+    padding-right: 20px;
+}
+.uk {
+    background: url(http://pascha.org/img/en.png) no-repeat right center;  
+}
+.fr {
+    background: url(http://pascha.org/img/fr.png) no-repeat right center;  
+}
+/* #lang_choice option:nth-child(3) { */
+/*     background: url(http://pascha.org/img/de.png) no-repeat right center;   */
+/* } */
+
+
+#mainMenu {
+    border-collapse: collapse;
 }
 
-li a {
-    display: block;
-    color: #778899;
-    padding: 8px 16px;
+#mainMenu td {
+    padding: 20px;
+    height: 100%;
+    width: 50%;
+    background-color: #FAFAFA;
+    border: 3px solid #EEE;
+}
+
+#mainMenu td:hover {
+    background-color: #EDEDED;
+}
+
+#mainMenu a.highlight {
+    background-color: #EDEDED !important;
+}
+
+#mainMenu a{
+    color: #000;
     text-decoration: none;
 }
 
-/* Change the link color on hover */
-li a:hover{
-	
-    background-color: #B0C4DE;
-    color: black;
-}
-li a:hover:after {
-  right: 0;
-  left: 0;
-}
-a.ex1:hover, a.ex1:active {color: red;}
-a.ex2:hover, a.ex2:active {font-size: 150%;}
-a.ex3:hover, a.ex3:active {background: red;}
-.cssmenu{
-  position:fixed;
-  width:100%;
-  height:100%;
-  margin-left: -10px;
-  margin-top: 140px;
-/*   margin-bottom: 200px; */
-  padding: 10px;
-  background-color : white;
-}
-.scroll-bar-page{
-	height: 2000px !important;
-	overflow: scroll;
-}
+

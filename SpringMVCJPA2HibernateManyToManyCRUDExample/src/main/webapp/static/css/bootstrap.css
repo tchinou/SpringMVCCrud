@@ -1636,16 +1636,16 @@ pre code {
   min-height: 500px;
   padding-right: 10px;
   padding-left: 800px;
-  top: 10px;
-  right:550px;
+  top: 0px;
+  right:80px;
 }
-.col-md-7777{
-  position: relative;
+#col-md-7777{
+  position: absolute;
   min-height: 10px;
   padding-right: 300px;
   padding-left: 1000px;
   bottom:50px;
-  top:40px;	
+  top:0px;	
 }
 .col-md-77777{
   position: relative;

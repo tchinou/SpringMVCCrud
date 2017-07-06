@@ -17,33 +17,40 @@
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.css" />" rel="stylesheet"/>  
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.structure.css" />" rel="stylesheet"/>  
 	<link href=" <c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.theme.css" />" rel="stylesheet"/>  
-	
 	<script src="<c:url value="/static/js/jquery-3.2.0.js" />"></script>
+	<script src="<c:url value="/static/js/jquery-3.2.1.min.js" />"></script>
 	<script src="<c:url value="/static/js/jquery-ui-1.12.1/jquery-ui.js" />"></script>
 	<script src="<c:url value="/static/js/jquery-latest.min.js" />"></script>
-	<script src="<c:url value="/static/js/language.js" />"></script>
-
+<%-- 	<script src="<c:url value="/static/js/language.js" />"></script> --%>
+	<script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"/>"></script>
+	
 </head>
 
 <body>
 	<div class="generic-cuntainer">
 
-	<div class="col-md-777">
-		<img id="uk" src=" <c:url value="/static/images/en.png" />" /> 
-		<img id="fr" src=" <c:url value="/static/images/fr.png" />"/>  
-	</div>
-	<div class="div-container" id="side-by-side">
+<!-- 	<div class="div-container" id="side-by-side"> -->
 	<div class="select-language">
-<%-- 		<c:import url="/static/html/language.html" /> --%>
-		<select id="hideShow" onChange="window.location.href=this.value">
-			<option value="null">${pageContext.response.locale}</option>
-			<option value="?lang=en" ><a href = "?lang=en"> English</a></option>
-			<option value="?lang=fr"> <a href = "?lang=fr">French</a></option>
-					
+		<select id="lang_choice" name="lang_choice" onChange="window.location.href=this.value">
+			<option value="">${pageContext.response.locale}</option>
+			<option value="?lang=en" name="en" > English</option>
+			<option value="?lang=fr" name="fr" > French</option>
+			
 		</select>
-		
+		<c:set var ="testValue" value="${pageContext.response.locale}" ></c:set>
+			 <c:choose>
+				 <c:when test="${testValue == 'en'}">
+				 	<option value="?lang=en" name="en" class="uk">
+						English	</option>
+				 </c:when>
+				 <c:otherwise>
+					<option value="?lang=fr" name="fr" class="fr" >
+						French
+					</option>
+				</c:otherwise>
+			</c:choose>	
 	</div>
-	</div>
+<!-- 	</div> -->
    	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 

@@ -7,24 +7,34 @@
 	<title>Users List</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+	<link href=" <c:url value="/static/css/styles.css" />" rel="stylesheet" />
+	
 </head>
 
 <body>
 	<div class="generic-cuntainer">
 	<div class="col-md-777">
-			<div class="">
-
-				<div onChange="window.location.href=this.value">
-					
-						<a href = "<c:url value="?lang=en"/>">
-							<img src=" <c:url value="/static/images/en.png" />" /> 
-						</a>
-					
-						<a href="<c:url value="?lang=fr"/>">
-							<img src=" <c:url value="/static/images/fr.png" />" />  
-						</a>
-				</div>
-			</div>
+		
+	</div>
+	<div class="select-language">
+		<select id="lang_choice" name="lang_choice" onChange="window.location.href=this.value">
+			<option value="">${pageContext.response.locale}</option>
+			<option value="?lang=en" name="en" > English</option>
+			<option value="?lang=fr" name="fr" > French</option>
+			
+		</select>
+		<c:set var ="testValue" value="${pageContext.response.locale}" ></c:set>
+			 <c:choose>
+				 <c:when test="${testValue == 'en'}">
+				 	<option value="?lang=en" name="en" class="uk">
+						English	</option>
+				 </c:when>
+				 <c:otherwise>
+					<option value="?lang=fr" name="fr" class="fr" >
+						French
+					</option>
+				</c:otherwise>
+			</c:choose>	
 	</div>
 	</div>
 		<div class="col-md-7777">
@@ -39,7 +49,7 @@
 			<h4><a href="<c:url value="/listitemspanier" />" >Go Back to Shopping</a> </h4>
  	 </div>
 <div>
-	<div class="generic-container-listOrdered"  style="overflow: scroll; height : 90%; max-height:500px">
+	<div class="generic-container-listOrdered"  style="overflow-y: scroll; height : 90%; max-height:500px">
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">${ordersList} </span></div>
