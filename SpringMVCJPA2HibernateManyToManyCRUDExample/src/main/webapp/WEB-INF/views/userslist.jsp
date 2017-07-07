@@ -43,7 +43,7 @@
 		<div class="div-container">
 
 		</div>
-		<div class="col-md-7777">
+		<div class="col-md-7777-admin">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>

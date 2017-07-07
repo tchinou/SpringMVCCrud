@@ -41,17 +41,17 @@
 			 <c:choose>
 				 <c:when test="${testValue == 'en'}">
 				 	<option value="?lang=en" name="en" class="uk">
-						English	</option>
+							</option>
 				 </c:when>
 				 <c:otherwise>
 					<option value="?lang=fr" name="fr" class="fr" >
-						French
+						
 					</option>
 				</c:otherwise>
 			</c:choose>	
 	</div>
 <!-- 	</div> -->
-   	<div class="col-md-7777">
+   	<div class="col-md-7777-admin">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
 			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
 				<a href="<c:url value="/logout" />" > ${Logout}</a>
@@ -62,7 +62,15 @@
 	<div class="generic-container-left">
 		<c:import url="/static/html/menu.html" />
  	</div>
- 	
+ 	<div class="generic-container">
+<!-- 		<div class="panel panel-default"> -->
+			<c:if test="${pageContext.request.userPrincipal.name != null}">
+				<h1>${Welcome} ${pageContext.request.userPrincipal.name} | 
+					
+				</h1>  
+			</c:if>
+<!-- 		</div> -->
+	</div>
 	</div>
 	
 </body>

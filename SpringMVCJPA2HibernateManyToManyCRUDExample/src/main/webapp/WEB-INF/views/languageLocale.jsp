@@ -20,37 +20,29 @@
 </head>
 
 <body>
-	<div class="generic-cuntainer-userPage">
-		 <form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
-					 
-			<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro} </button>
-		 </form> 
 
-		<jsp:include page="/WEB-INF/views/languageLocale.jsp"/>
+	<div class="select-language">
+		<select id="lang_choice" name="lang_choice" onChange="window.location.href=this.value">
+			<option value="">${pageContext.response.locale}</option>
+			<option value="?lang=en" name="en" > English</option>
+			<option value="?lang=fr" name="fr" > French</option>
+			
+		</select>
+		<c:set var ="testValue" value="${pageContext.response.locale}" ></c:set>
+			 <c:choose>
+				 <c:when test="${testValue == 'en'}">
+				 	<option value="?lang=en" name="en" class="uk">
+							</option>
+				 </c:when>
+				 <c:otherwise>
+					<option value="?lang=fr" name="fr" class="fr" >
+						
+					</option>
+				</c:otherwise>
+			</c:choose>	
+	</div>
 
-		<div class="col-md-7777">
-			<c:if test="${pageContext.request.userPrincipal.name != null}">
-				<h2>${Welcome}
-					${pageContext.request.userPrincipal.name} | <a
-						href="<c:url value="/logout" />"> ${Logout}</a>
-				</h2>
-			</c:if>
-		</div>
+		
 
-	 <div class="generic-container-left-userPage">
-		<c:import url="/static/html/menuUser.html" />
- 	 </div>
-		<div class="generic-container">
-			<c:if test="${pageContext.request.userPrincipal.name != null}">
-				<h1>${Welcome} ${pageContext.request.userPrincipal.name} | 
-					
-				</h1>  
-			</c:if>
-<!-- 				<div class="panel panel-default"> -->
-				
-<!-- 				</div> -->
-				
-		</div>
-   	</div>
 </body>
 </html>

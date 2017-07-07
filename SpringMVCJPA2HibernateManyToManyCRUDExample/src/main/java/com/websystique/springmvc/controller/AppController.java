@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.websystique.springmvc.configuration.CustomSuccessHandler;
 import com.websystique.springmvc.model.Cart;
 import com.websystique.springmvc.model.CustomerInfo;
 import com.websystique.springmvc.model.Item;
@@ -76,9 +77,20 @@ public class AppController {
 	 * This method will list all existing users.
 	 */
 	@RequestMapping(value= "/", method = RequestMethod.GET)
-	public String visitHome(ModelMap model) {
-		model.addAttribute("user", getPrincipal());
-		return "login";
+	public ModelAndView welcomeHomePage(ModelMap model, Locale locale) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		if(getPrincipalRole().contains("ADMIN")){
+			
+			modelAndView.setViewName("redirect:/welcomeAdmin/");
+			}
+		else {
+			modelAndView.setViewName("redirect:/welcomeUser/");
+		
+		}
+		return modelAndView;
+		
+		
 	}
 	@RequestMapping(value = "/db", method = RequestMethod.GET)
 	public ModelAndView visitUser(Locale locale) {
@@ -113,13 +125,29 @@ public class AppController {
 	 private String getPrincipal(){
 	        String userName = null;
 	        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	 
+
 	        if (principal instanceof UserDetails) {
-	            userName = ((UserDetails)principal).getUsername();
+	            
+	        	userName = ((UserDetails)principal).getUsername();
 	        } else {
+	        	
 	            userName = principal.toString();
 	        }
 	        return userName;
+	    }
+	
+	 private String getPrincipalRole(){
+	        String role = null;
+	        Object principalRole = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	        if (principalRole instanceof UserDetails) {
+	            
+	            role = ((UserDetails) principalRole).getAuthorities().toString();
+	        } else {
+	        	
+	            role = principalRole.toString();
+	        }
+	        return role;
 	    }
 	 @RequestMapping(value = "/login", method = RequestMethod.GET)
 	    public String loginPage() {
@@ -348,11 +376,10 @@ public class AppController {
 	@RequestMapping(value = {"/welcomeAdmin"}, method = RequestMethod.GET)
 	public String displayWelcomeAdminPage(ModelMap model, Locale locale) {
 		
-	        
-			
 			String messageLogin = messageSource.getMessage("Login.message", null, locale);
 			model.addAttribute("Login", messageLogin);
-			
+		    model.addAttribute("user", getPrincipalRole());
+
 			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 			model.addAttribute("Welcome", messageWelcome);
 			
@@ -362,11 +389,13 @@ public class AppController {
 		return "welcomePageAdmin";
 	}
 	@RequestMapping(value = {"/welcomeUser"}, method = RequestMethod.GET)
-	public String displayWelcomeUserPage(ModelMap model, Locale locale) {
+	public String displayWelcomeUserPage(ModelMap model, Locale locale, HttpServletRequest request) {
 		
-	        
 			Locale currentLocale = LocaleContextHolder.getLocale();
-		    model.addAttribute("locale", currentLocale);
+			
+			Cart myCart = CartUtil.getCartInSession(request);
+		    model.addAttribute("user", getPrincipalRole());
+			model.addAttribute("locale", currentLocale);
 			String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
 			model.addAttribute("historyOrder", messageMyHistoryOrder);
 			model.addAttribute("logoEuro", " &euro;");
@@ -378,7 +407,16 @@ public class AppController {
 			model.addAttribute("Welcome", messageWelcome);
 			String messageLogout = messageSource.getMessage("logout.message", null, locale);
 			model.addAttribute("Logout", messageLogout);
-		 
+			Integer qua = myCart.getTotalQuantity(myCart.getProducts());
+			BigDecimal totalPrice=new BigDecimal(0);
+			BigDecimal subtotal = new BigDecimal(0);
+		 	for(ItemInCart qa:myCart.getProducts()){
+		 		subtotal = qa.getSubtotal(); 
+		 		totalPrice = totalPrice.add(subtotal);
+		 	}
+		 	model.addAttribute("quan", qua);
+			model.addAttribute("articles", "items");
+			model.addAttribute("priceCart", totalPrice);
 		return "welcomePageUser";
 	}
 	//affiche en lançant l'application la vue panier et items utilisateur 
@@ -833,7 +871,7 @@ public class AppController {
 		Locale currentLocale = LocaleContextHolder.getLocale();
 	    model.addAttribute("locale", currentLocale);
 		Cart myCart = CartUtil.getCartInSession(request);
-		Integer qua = myCart.getTotalQuantity( myCart.getProducts());
+		Integer qua = myCart.getTotalQuantity(myCart.getProducts());
 		BigDecimal totalPrice=new BigDecimal(0);
 		BigDecimal subtotal = new BigDecimal(0);
 	 	for(ItemInCart qa:myCart.getProducts()){

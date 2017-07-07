@@ -27,26 +27,7 @@
 		 	<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro} </button>
 	</form> 
 
-	<div class="select-language">
-		<select id="lang_choice" name="lang_choice" onChange="window.location.href=this.value">
-			<option value="">${pageContext.response.locale}</option>
-			<option value="?lang=en" name="en" > English</option>
-			<option value="?lang=fr" name="fr" > French</option>
-			
-		</select>
-		<c:set var ="testValue" value="${pageContext.response.locale}" ></c:set>
-			 <c:choose>
-				 <c:when test="${testValue == 'en'}">
-				 	<option value="?lang=en" name="en" class="uk">
-						English	</option>
-				 </c:when>
-				 <c:otherwise>
-					<option value="?lang=fr" name="fr" class="fr" >
-						French
-					</option>
-				</c:otherwise>
-			</c:choose>	
-	</div>
+	<jsp:include page="/WEB-INF/views/languageLocale.jsp"/>
 	
 	<div class="col-md-7777">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -56,19 +37,9 @@
 		</c:if>	
 	</div>
 	 <div class="generic-container-left-userPage">
+
+		<c:import url="/static/html/menuUser.html" />
 			
-			<form action="${pageContext.request.contextPath}/welcomeUser"  method="GET">
-				 
-				 <button  class="btn btn-primary" type="submit"> Accueil </button>
-			</form> 
-			<form action="${pageContext.request.contextPath}/listitemspanier"  method="GET">
-		 
-		 		<button  class="btn btn-primary" type="submit"> List Items </button>
-			</form> 
-			
-			<form action="${pageContext.request.contextPath}/myHistoryOrder-${pageContext.request.userPrincipal.name}"  method="GET">
-				 	<button  class="btn btn-primary" type="submit">Mes Commandes</button>
-		  	</form> 
  	 </div>
 	<div class="generic-container">
 		<div class="panel panel-default">
@@ -96,16 +67,16 @@
 						<td>${item.description}</td>
 						<td>${item.price}</td>
 
-							<td> 
+						<td> 
 		        			 
-		                    	<form action="${pageContext.request.contextPath}/add?id=${item.id}" class="add-form" method="POST">
-			 						<input type="number" name="quantity" min="1"  value=1>
+		                    <form action="${pageContext.request.contextPath}/add?id=${item.id}" class="add-form" method="POST">
+			 					 <input type="number" name="quantity" min="1"  value=1>
 		                    
-			 						<button  class="btn btn-primary" type="submit">+</button>
-		 							 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			 					 <button  class="btn btn-primary" type="submit">+</button>
+		 						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		           
-		 						</form> 
-		 					</td>
+		 					</form> 
+		 				</td>
 					</tr>
 				</c:forEach>
 	    		</tbody>

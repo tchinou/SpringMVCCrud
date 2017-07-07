@@ -126,12 +126,12 @@ body, .form-control{
 }
 .generic-container-left-userPage{
   position:fixed;
-  width:100%;
+  width:200px;
   height:100%;
   margin-left: -20px;
   margin-top: 130px;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 20px;
   background-color : white;
 
 /*   background-color: #EAE7E7; */
