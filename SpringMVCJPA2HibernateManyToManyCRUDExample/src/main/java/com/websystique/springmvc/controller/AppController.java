@@ -76,9 +76,9 @@ public class AppController {
 	 * This method will list all existing users.
 	 */
 	@RequestMapping(value= "/", method = RequestMethod.GET)
-	public ModelAndView visitHome(ModelMap model) {
+	public String visitHome(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
-		return new ModelAndView("login");
+		return "login";
 	}
 	@RequestMapping(value = "/db", method = RequestMethod.GET)
 	public ModelAndView visitUser(Locale locale) {
@@ -217,37 +217,60 @@ public class AppController {
 	}
 	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
 	public String listItemsPanier(ModelMap model, Locale locale, HttpServletRequest request) {
+		Cart myCart = CartUtil.getCartInSession(request);
+	    
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
 		model.addAttribute("nameItem", messageNameItem);
+		
 		String messageDescriptionItem = messageSource.getMessage("itemDescription.message", null, locale);
 		model.addAttribute("descriptionItem", messageDescriptionItem);
+		
 		String messagePriceItem = messageSource.getMessage("itemPrice.message", null, locale);
 		model.addAttribute("priceItem", messagePriceItem);
+		
 		String messageListofItems = messageSource.getMessage("listofItems.message", null, locale);
 		model.addAttribute("ListofItems", messageListofItems);
+		
 		model.addAttribute("price", "DESC");
+		
 		String messageDelete = messageSource.getMessage("delete.message", null, locale);
 		model.addAttribute("delete", messageDelete);
+		
 		String messageAddNewItem = messageSource.getMessage("addNewItem.message", null, locale);
 		model.addAttribute("AddNewItem", messageAddNewItem);
+		
 		String messageId = messageSource.getMessage("id.message", null, locale);
 		model.addAttribute("id", messageId);
+		
 		String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 		model.addAttribute("Welcome", messageWelcome);
+		
 		String messageLogout = messageSource.getMessage("logout.message", null, locale);
 		model.addAttribute("Logout", messageLogout);
+		
 		String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
 		model.addAttribute("MyCart", messageMyCart);
+		
 		List<Item> items = itemService.sortItemsByName();
 		model.addAttribute("items", items);
+		
 		Locale currentLocale = LocaleContextHolder.getLocale();
 	    model.addAttribute("locale", currentLocale);
-		Cart myCart = CartUtil.getCartInSession(request);
-		Integer q = myCart.getTotalQuantity( myCart.getProducts());
-		BigDecimal priceMyCart = myCart.getCartPrice();
-		model.addAttribute("priceCart", priceMyCart);
+		
+	    
+		Integer q = myCart.getTotalQuantity(myCart.getProducts());
+		BigDecimal totalPrice=new BigDecimal(0);
+		BigDecimal subtotal = new BigDecimal(0);
+	 	for(ItemInCart qa:myCart.getProducts()){
+	 		subtotal = qa.getSubtotal(); 
+	 		totalPrice = totalPrice.add(subtotal);
+	 	}
+		/////boucle infinie BigDecimal priceMyCart = myCart.getCartPrice();
+		
+		model.addAttribute("priceCart", totalPrice);
 		model.addAttribute("quan", q);
 		model.addAttribute("articles", "items");
+		
 		String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
 		model.addAttribute("historyOrder", messageMyHistoryOrder);
 		model.addAttribute("logoEuro", " &euro;");
@@ -321,6 +344,42 @@ public class AppController {
 			model.addAttribute("Logout", messageLogout);
 		 
 		return "admin";
+	}
+	@RequestMapping(value = {"/welcomeAdmin"}, method = RequestMethod.GET)
+	public String displayWelcomeAdminPage(ModelMap model, Locale locale) {
+		
+	        
+			
+			String messageLogin = messageSource.getMessage("Login.message", null, locale);
+			model.addAttribute("Login", messageLogin);
+			
+			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+			model.addAttribute("Welcome", messageWelcome);
+			
+			String messageLogout = messageSource.getMessage("logout.message", null, locale);
+			model.addAttribute("Logout", messageLogout);
+		 
+		return "welcomePageAdmin";
+	}
+	@RequestMapping(value = {"/welcomeUser"}, method = RequestMethod.GET)
+	public String displayWelcomeUserPage(ModelMap model, Locale locale) {
+		
+	        
+			Locale currentLocale = LocaleContextHolder.getLocale();
+		    model.addAttribute("locale", currentLocale);
+			String messageMyHistoryOrder=messageSource.getMessage("MyHistoryOrder.message", null, locale);
+			model.addAttribute("historyOrder", messageMyHistoryOrder);
+			model.addAttribute("logoEuro", " &euro;");
+			String messageMyCart = messageSource.getMessage("mycart.message", null, locale);
+			model.addAttribute("MyCart", messageMyCart);
+			String messageLogin = messageSource.getMessage("Login.message", null, locale);
+			model.addAttribute("Login", messageLogin);
+			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
+			model.addAttribute("Welcome", messageWelcome);
+			String messageLogout = messageSource.getMessage("logout.message", null, locale);
+			model.addAttribute("Logout", messageLogout);
+		 
+		return "welcomePageUser";
 	}
 	//affiche en lançant l'application la vue panier et items utilisateur 
 	@RequestMapping(value = {"/spring"}, method = RequestMethod.GET)
@@ -520,19 +579,21 @@ public class AppController {
 		}
 		
 		userService.saveUser(user);
-		String messageItem = messageSource.getMessage("item.message", null, locale);
-		model.addAttribute("Item", messageItem);
-		String messageSuccess = messageSource.getMessage("success.message", null, locale);
-		model.addAttribute("successMessage", messageSuccess);
-		model.addAttribute("success", user.getFirstName() + " "+ user.getLastName());
-		String messageSuccessRegistry = messageSource.getMessage("successRegistry.message", null, locale);
-		model.addAttribute("successMessageRegistry", messageSuccessRegistry);
-		//return "success";
-		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
-		model.addAttribute("Goto", messageGoTo);
-		String messageUsersList = messageSource.getMessage("usersList.message", null, locale);
-		model.addAttribute("UsersList", messageUsersList);
-		return "registrationsuccess";
+
+		return "redirect:/list";
+//		String messageItem = messageSource.getMessage("item.message", null, locale);
+//		model.addAttribute("Item", messageItem);
+//		String messageSuccess = messageSource.getMessage("success.message", null, locale);
+//		model.addAttribute("successMessage", messageSuccess);
+//		model.addAttribute("success", user.getFirstName() + " "+ user.getLastName());
+//		String messageSuccessRegistry = messageSource.getMessage("successRegistry.message", null, locale);
+//		model.addAttribute("successMessageRegistry", messageSuccessRegistry);
+//		//return "success";
+//		String messageGoTo = messageSource.getMessage("goTo.message", null, locale);
+//		model.addAttribute("Goto", messageGoTo);
+//		String messageUsersList = messageSource.getMessage("usersList.message", null, locale);
+//		model.addAttribute("UsersList", messageUsersList);
+//		return "registrationsuccess";
 	}
 	
 

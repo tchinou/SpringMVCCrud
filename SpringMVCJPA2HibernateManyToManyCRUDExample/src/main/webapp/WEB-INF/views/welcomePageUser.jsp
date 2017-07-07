@@ -20,11 +20,10 @@
 </head>
 
 <body>
-<%-- 	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET"> --%>
 	<div class="generic-cuntainer-userPage">
-	<form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
-		 
-		 	<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro} </button>
+	 <form action="${pageContext.request.contextPath}/myCart-${pageContext.request.userPrincipal.name}"  method="GET">
+				 
+				 	<button  class="btn btn-primary" type="submit"> ${MyCart}: ${quan} ${articles} | ${priceCart} ${logoEuro} </button>
 	</form> 
 
 	<div class="select-language">
@@ -47,16 +46,18 @@
 				</c:otherwise>
 			</c:choose>	
 	</div>
-	
-	<div class="col-md-7777">
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<h2>${Welcome} ${pageContext.request.userPrincipal.name} | 
-				<a href="<c:url value="/logout" />" > ${Logout}</a>
-			</h2>  
-		</c:if>	
-	</div>
-	 <div class="generic-container-left-userPage">
-			
+
+		<div class="col-md-7777">
+			<c:if test="${pageContext.request.userPrincipal.name != null}">
+				<h2>${Welcome}
+					${pageContext.request.userPrincipal.name} | <a
+						href="<c:url value="/logout" />"> ${Logout}</a>
+				</h2>
+			</c:if>
+		</div>
+
+
+		<div class="generic-container-left-userPage">
 			<form action="${pageContext.request.contextPath}/welcomeUser"  method="GET">
 				 
 				 <button  class="btn btn-primary" type="submit"> Accueil </button>
@@ -70,48 +71,7 @@
 				 	<button  class="btn btn-primary" type="submit">Mes Commandes</button>
 		  	</form> 
  	 </div>
-	<div class="generic-container">
-		<div class="panel panel-default">
-			  <!-- Default panel contents -->
-		  	<div class="panel-heading"><span class="lead">${ListofItems} </span></div>
-			<table class="table table-hover">
-	    		<thead>
-		      		<tr>
-				        <th>${id}</th>
-				        <th>${nameItem}</th>
-				        <th>${descriptionItem}</th>
-				        <th>
-							<a href="<c:url value='/sort-item?sortfield=${price}'/>"> ${priceItem}</a>
-				        </th>
-				        <th>${quantity}</th>
-				        <th width="100"></th>
-				        <th width="100"></th>
-					</tr>
-		    	</thead>
-	    		<tbody>
-				<c:forEach items="${items}" var="item">
-					<tr>
-						<td>${item.id}</td>
-						<td>${item.name}</td>
-						<td>${item.description}</td>
-						<td>${item.price}</td>
 
-							<td> 
-		        			 
-		                    	<form action="${pageContext.request.contextPath}/add?id=${item.id}" class="add-form" method="POST">
-			 						<input type="number" name="quantity" min="1"  value=1>
-		                    
-			 						<button  class="btn btn-primary" type="submit">+</button>
-		 							 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		           
-		 						</form> 
-		 					</td>
-					</tr>
-				</c:forEach>
-	    		</tbody>
-	    	</table>
-		</div>
-   	</div>
    	</div>
 </body>
 </html>

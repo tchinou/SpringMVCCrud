@@ -11,6 +11,7 @@
 
 	<spring:url value="/static/css/style.css" var="stylecss"/>  
 	<spring:url value="/static/css/bootstrap.min.css" var="style2css"/>  
+	<link href=" <c:url value="/static/css/styles.css" />" rel="stylesheet" />
 	
 	<link href="${stylecss}" rel="stylesheet"/>  
 	<link href="${style2css}" rel="stylesheet"/>  
@@ -65,11 +66,25 @@
 		   </p>
 		
 </div>
-<div style="overflow-x:auto;">
-		<form action="${pageContext.request.contextPath}/myOrder-${login}"  method="GET">
-		 	<button  class="btn btn-primary" type="submit"> ${OrderMyCart}</button>
+	<div class="generic-container-left-userPage">
+		<form action="${pageContext.request.contextPath}/welcomeUser"  method="GET">
+				 
+			<button  class="btn btn-primary" type="submit"> Accueil </button>
 		</form> 
-</div>
+		<form action="${pageContext.request.contextPath}/listitemspanier"  method="GET">
+		 
+		 	<button  class="btn btn-primary" type="submit"> List Items </button>
+		</form> 
+			
+		<form action="${pageContext.request.contextPath}/myHistoryOrder-${pageContext.request.userPrincipal.name}"  method="GET">
+			<button  class="btn btn-primary" type="submit">Mes Commandes</button>
+		</form> 
+	</div>
+	<div>
+		<form action="${pageContext.request.contextPath}/myOrder-${login}"  method="GET">
+			<button  class="btn btn-primary" type="submit"> ${OrderMyCart}</button>
+		</form> 
+	</div>
     
 <%--  <jsp:include page="_footer.jsp" /> --%>
 </body>

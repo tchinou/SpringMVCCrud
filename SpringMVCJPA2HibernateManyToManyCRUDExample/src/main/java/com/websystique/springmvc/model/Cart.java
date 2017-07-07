@@ -53,9 +53,13 @@ public class Cart {
 		
 	}
 	public Integer getTotalQuantity(List<ItemInCart> listItems){
+
 		Integer quantity=0;
-		for(int i=0; i<listItems.size(); i++){
-			quantity=quantity+listItems.get(i).getQuantity();
+		
+		for(int i=0; i< listItems.size(); i++){
+			
+			quantity = quantity + listItems.get(i).getQuantity();
+
 		}
 		return quantity;
 	}
@@ -68,10 +72,12 @@ public class Cart {
 		this.quantity=this.quantity+quantity;
 	}
 	public void deleteProduct(Item p){
+		
 		ItemInCart pl=getPl(p.getId());
 		if(pl!=null){
 			System.out.println("remove item");
 			products.remove(pl);
+		
 		}
 	}
 	

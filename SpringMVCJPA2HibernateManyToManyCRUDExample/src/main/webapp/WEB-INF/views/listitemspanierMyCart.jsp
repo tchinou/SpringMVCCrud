@@ -54,9 +54,19 @@
 		</c:if>	
 	</div>
 	<div class="generic-container-left-userPage">
+		<form action="${pageContext.request.contextPath}/welcomeUser"  method="GET">
+				 
+			<button  class="btn btn-primary" type="submit"> Accueil </button>
+		</form> 
+		<form action="${pageContext.request.contextPath}/listitemspanier"  method="GET">
+		 
+		 	<button  class="btn btn-primary" type="submit"> List Items </button>
+		</form> 
+			
 		<form action="${pageContext.request.contextPath}/myHistoryOrder-${pageContext.request.userPrincipal.name}"  method="GET">
 			<button  class="btn btn-primary" type="submit">Mes Commandes</button>
-		</form> 
+		</form> 	 
+		
  	 </div>
 	<div class="generic-container">
 		<div class="panel panel-default">
