@@ -162,7 +162,7 @@ public class AppController {
 	        }
 	        return "redirect:/login?logout";
 	    }
-	@RequestMapping(value = {"/listitems" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/listitems", "/welcomeAdmin/listitems" }, method = RequestMethod.GET)
 	public String listItems(ModelMap model, Locale locale, HttpServletRequest request) {
 		String messageNameItem = messageSource.getMessage("itemName.message", null, locale);
 		model.addAttribute("nameItem", messageNameItem);
@@ -243,7 +243,7 @@ public class AppController {
 	 	model.addAttribute("priceCart", totalPrice);
 		return "itemslistpanier";
 	}
-	@RequestMapping(value = {"/listitemspanier" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/listitemspanier", "/welcomeUser/listitemspanier" }, method = RequestMethod.GET)
 	public String listItemsPanier(ModelMap model, Locale locale, HttpServletRequest request) {
 		Cart myCart = CartUtil.getCartInSession(request);
 	    
@@ -304,7 +304,7 @@ public class AppController {
 		model.addAttribute("logoEuro", " &euro;");
 		return "itemslistpanier";
 	}
-	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/list", "/welcomeAdmin/list" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model, Locale locale, HttpServletRequest request) {
 
 		List<User> users = userService.findAllUsers();
@@ -373,12 +373,11 @@ public class AppController {
 		 
 		return "admin";
 	}
-	@RequestMapping(value = {"/welcomeAdmin"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/welcomeAdmin", "/welcomeAdmin/welcomeAdmin"})
 	public String displayWelcomeAdminPage(ModelMap model, Locale locale) {
 		
 			String messageLogin = messageSource.getMessage("Login.message", null, locale);
 			model.addAttribute("Login", messageLogin);
-		    model.addAttribute("user", getPrincipalRole());
 
 			String messageWelcome = messageSource.getMessage("welcome.message", null, locale);
 			model.addAttribute("Welcome", messageWelcome);
@@ -388,7 +387,7 @@ public class AppController {
 		 
 		return "welcomePageAdmin";
 	}
-	@RequestMapping(value = {"/welcomeUser"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/welcomeUser", "/welcomeUser/welcomeUser"}, method = RequestMethod.GET)
 	public String displayWelcomeUserPage(ModelMap model, Locale locale, HttpServletRequest request) {
 		
 			Locale currentLocale = LocaleContextHolder.getLocale();
@@ -706,7 +705,7 @@ public class AppController {
 	@RequestMapping(value = { "/delete-user-{id}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable int id) {
 		userService.deleteUserById(id);
-		return "redirect:/list";
+		return "redirect:/welcomeAdmin/list";
 	}
 	
 
@@ -784,14 +783,14 @@ public class AppController {
 		itemService.deleteById(id);
 		return "redirect:/listitems";
 	}
-	@ModelAttribute("countries")
-	public List<String> initializeCountries() {
-
-		List<String> language = new ArrayList<String>();
-		language.add("english");
-		language.add("french");
-		return language;
-	}
+//	@ModelAttribute("countries")
+//	public List<String> initializeCountries() {
+//
+//		List<String> language = new ArrayList<String>();
+//		language.add("english");
+//		language.add("french");
+//		return language;
+//	}
 //	@RequestMapping(value = "/internationalisation", method = RequestMethod.GET)
 //    public String index(Locale locale, Model model){
 //
@@ -1017,7 +1016,7 @@ public class AppController {
 		return "mydisplayorder";
 	}
 	
-	@RequestMapping(value =  "/listOrders" , method=RequestMethod.GET)
+	@RequestMapping(value =  {"/listOrders", "/welcomeAdmin/listOrders"} , method=RequestMethod.GET)
 	public String listOrder(ModelMap model, Locale locale) {
 		
 		String messageIdOrder = messageSource.getMessage("idOrder.message", null, locale);
@@ -1084,8 +1083,7 @@ public class AppController {
 	}
 	@RequestMapping(value="/myHistoryOrder-{login}", method = RequestMethod.GET)
 	public String myHistoryOrders(HttpServletRequest request,Model model, 
-			Locale locale,
-			@PathVariable String login){
+			Locale locale,	@PathVariable String login){
 		
 			User user = userService.findByLogin(login);
 			List<OrderHeader>	ordersList = orderHeaderService.findAllOrders(user.getId());
